@@ -1,12 +1,11 @@
 import React from "react";
 import './HomeComponent.css';
+import bgVideo from '../shared/background.mp4';
 
 const HomeComponent = () => {
     return (
         <div className="home-container">
-        <video autoPlay muted loop className="background-video">
-            <source src="shared/background.mp4" type="video/mp4" />
-         </video>
+        <video autoPlay muted loop className="background-video" src={bgVideo}/>
         <div className="content">
             <h1>SEE INTO THE FUTURE
             <p>Step into a world where reality blends with the digital.<br></br>

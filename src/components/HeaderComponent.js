@@ -1,12 +1,14 @@
 import React from 'react';
 import './HeaderComponent.css';
+import logoVideo from '../shared/logo_anim.webm';
+
 
 const HeaderComponent = () => {
   return (
     <header className="header-menu">
     <nav className="nav-container">
       <ul className="nav-list">
-              <a href="#home"><video src="public/logo_anim.mp4" autoPlay loop muted className="logo-video" type="video/mp4"></video></a>
+              <a href="#home"><video autoPlay muted loop className="logo-video" src={logoVideo}/></a>
               <li className="nav-item"><a href="#virtualassets" className="nav-link">VIRTUAL ASSETS</a></li>
               <li className="nav-item"><a href="#nft" className="nav-link">NFT</a></li>
               <li className="nav-item"><a href="#avataraccessories" className="nav-link">AVATAR ACCESSORIES</a></li>
