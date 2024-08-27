@@ -1,0 +1,60 @@
+.home-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
+
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;      
+  filter: brightness(0.5);
+}
+
+.content {
+  color: #fff;
+  text-align: left;
+  z-index: 1;
+}
+
+.content h1, .content h2 {
+  font-size: 48px;
+  font-family: "cyberpunk", sans-serif; 
+  color: greenyellow;
+}
+
+.content p {
+  font-family: sans-serif;
+  color: white;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.explore-btn {
+    font-family: "cyberpunk";
+    background: 
+    linear-gradient(#333, #333) padding-box,
+    linear-gradient(60deg, #7541E5, #333) border-box;
+    color: #fff;
+    padding: 10px 20px;
+    border: 5px solid transparent;
+    border-radius: 40px;
+    font-size: 25px;
+    margin-left: 1vw;
+    transition: background-color 3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.explore-btn:hover {
+  background: 
+    linear-gradient(#333, #333) padding-box,
+    linear-gradient(60deg, #333, #7541E5) border-box;
+  color: #7541E5;
+}

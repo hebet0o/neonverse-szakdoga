@@ -11,3 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face{
+  font-family: "cyberpunk";
+  src: local("SDGlitch_Demo"),
+  url("./font/SDGlitch_Demo.ttf") format("truetype");
+}
+
+@font-face{
+  font-family: "body";
+  src: local("fsalbert-extrabold"),
+  url("./font/fsalbert-extrabold.otf") format("truetype");
+}

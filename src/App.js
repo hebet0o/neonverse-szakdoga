@@ -1,23 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
+import HeaderComponent from './components/HeaderComponent.js';
+import HomeComponent from './components/HomeComponent.js';
+
+//fonts
+import "./font/fsalbert-extrabold.otf";
+import "./font/SDGlitch_Demo.ttf"
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <HeaderComponent></HeaderComponent>
+      <HomeComponent></HomeComponent>
     </div>
   );
 }
