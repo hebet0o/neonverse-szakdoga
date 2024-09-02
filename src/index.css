@@ -23,3 +23,7 @@ code {
   src: local("fsalbert-extrabold"),
   url("./font/fsalbert-extrabold.otf") format("truetype");
 }
+
+button{
+  cursor: pointer;
+}

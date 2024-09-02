@@ -5,6 +5,9 @@
     justify-content: center;
 }
 
+HeaderComponent{
+  position: fixed;
+}
 @font-face{
   font-family: "cyberpunk";
   src: local("SDGlitch_Demo"),

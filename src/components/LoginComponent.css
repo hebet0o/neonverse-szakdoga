@@ -1,0 +1,77 @@
+/* Alap stílusok a Login komponenshez */
+.ctrlDiv{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("../shared/loginbg.png");
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50%;
+    width: 40%;
+    background-color: #131313; 
+    padding-top: 3em;
+    max-width: 400px;
+    margin: au0to;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-family: "cyberpunk";
+    color: yellowgreen;
+  }
+  
+  .form-group input {
+    max-width: 70%;
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+  }
+  
+  .submit-button {
+    font-family: "cyberpunk";
+    background: 
+    linear-gradient(transparent, transparent) padding-box,
+    linear-gradient(60deg, #7541E5, transparent) border-box;
+    color: #fff;
+    padding: 10px 20px;
+    border: 5px solid transparent;
+    border-radius: 40px;
+    font-size: 1vw;
+    margin-left: 1vw;
+    transition: background-color 3s ease-in-out, color 0.3s ease-in-out;
+  }
+  
+  .submit-button:hover {
+    cursor: pointer;
+    background: 
+      linear-gradient(transparent, transparent) padding-box,
+      linear-gradient(60deg, transparent, #7541E5) border-box;
+    color: #7541E5;
+  }
+  

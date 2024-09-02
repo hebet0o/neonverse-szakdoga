@@ -10,7 +10,7 @@
     width: 100%;
     padding: 0;
     position: fixed;
-    z-index: 1000;
+    z-index: 1;
     opacity: 75%;
     height: 10vh;
     display: flex;
@@ -19,7 +19,7 @@
   }
 
   .logo-video {
-     width: 20vh;
+     width: 25vh;
      height: auto;
      display: block;
   }
@@ -28,7 +28,7 @@
     margin-top: 5vh;
     background-color: black;
     width: 25vw;
-    padding: 10px;
+    padding: 0.5vw;
     display: flex;
     justify-content: center;
     width: 55%;
@@ -52,7 +52,7 @@
   .nav-link {
     text-decoration: none;
     color: #fff;
-    font-size: 30px;
+    font-size: 1.5vw;
   }
 
 
@@ -66,26 +66,27 @@
     margin-left: 15px;
   }
 
-  .auth-btn{
+  .auth-btn {
     font-family: "cyberpunk";
     background: 
-    linear-gradient(#333, #333) padding-box,
-    linear-gradient(60deg, #7541E5, #333) border-box;
+    linear-gradient(transparent, transparent) padding-box,
+    linear-gradient(60deg, #7541E5, transparent) border-box;
     color: #fff;
     padding: 10px 20px;
     border: 5px solid transparent;
     border-radius: 40px;
-    font-size: 25px;
+    font-size: 1vw;
     margin-left: 1vw;
     transition: background-color 3s ease-in-out, color 0.3s ease-in-out;
-  }
+}
 
-  .auth-btn:hover {
-    background: 
-      linear-gradient(#333, #333) padding-box,
-      linear-gradient(60deg, #333, #7541E5) border-box;
-    color: #7541E5;
-  }
+.auth-btn:hover {
+  cursor: pointer;
+  background: 
+    linear-gradient(transparent, transparent) padding-box,
+    linear-gradient(60deg, transparent, #7541E5) border-box;
+  color: #7541E5;
+}
   
 
   .login-btn {
