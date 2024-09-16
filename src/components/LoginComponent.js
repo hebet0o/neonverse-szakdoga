@@ -18,13 +18,16 @@ const LoginComponent = () => {
     }
   };
 
+  
+
   return (
+    <div className="bgDiv">
     <div className="ctrlDiv">
     <div className="login-container">
     <video autoPlay muted loop className="logo-video" src={logoVideo} />
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">USERNAME:</label>
+          <label htmlFor="username">USERNAME</label>
           <input
             type="text"
             id="username"
@@ -34,7 +37,7 @@ const LoginComponent = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">PASSWORD:</label>
+          <label htmlFor="password">PASSWORD</label>
           <input
             type="password"
             id="password"
@@ -49,7 +52,14 @@ const LoginComponent = () => {
         </button>
       </form>
     </div>
+    <model-viewer id="reveal"
+    autoplay ar ar-modes="webxr scene-viewer" scale="15 15 15" shadow-intensity="3" 
+    src="assets/models/loginmodel.glb" camera-target="90m 100m 10m"
+    alt="Avatar"></model-viewer>
     </div>
+    </div>
+    
+    
   );
 };
 

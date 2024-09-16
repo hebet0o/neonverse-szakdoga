@@ -65,10 +65,7 @@
   color: #7541E5;
 }
 
-#reveal {
-  width: 50%;
+model-viewer {
+  width: 25vw;
   height: 50vh;
-  filter: brightness(0.9);
 }
-
-

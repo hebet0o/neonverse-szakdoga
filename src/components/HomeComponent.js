@@ -1,8 +1,6 @@
 import React from "react";
 import './HomeComponent.css';
 import bgVideo from '../shared/background.mp4';
-import SocialMediaButtons from './SocialMediaButtons';
-
 
 const HomeComponent = () => {
     return (
@@ -17,10 +15,7 @@ const HomeComponent = () => {
                     <h2 className="green">UNIMAGINABLE.</h2>
                     <button className="explore-btn">ENTER THE WORLD</button>
                 </div>
-                <model-viewer id="reveal" camera-controls touch-action="pan-y"
-                 autoplay ar ar-modes="webxr scene-viewer" scale="0.2 0.2 0.2" shadow-intensity="1" 
-                src="assets/models/mainmodel.glb"
-                alt="Avatar"></model-viewer>
+                <model-viewer camera-controls touch-action="pan-y" autoplay ar ar-modes="webxr scene-viewer" scale="0.2 0.2 0.2" camera-target="0m 0.20m 0m" shadow-intensity="1" src="assets/models/mainmodel.glb" alt="Main 3D model"></model-viewer>
             </div>
         </div>
     );
