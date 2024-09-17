@@ -1,6 +1,5 @@
 import React from 'react';
 import './HeaderComponent.css';
-import logoVideo from '../shared/logo_anim.webm';
 import { Link } from 'react-router-dom';
 
 const HeaderComponent = () => {
@@ -8,7 +7,7 @@ const HeaderComponent = () => {
     <header className="header-menu">
       <nav className="nav-container">
         <ul className="nav-list">
-          <Link to="/"><video autoPlay muted loop className="logo-video" src={logoVideo} /></Link>
+          <Link to="/"><video autoPlay muted loop className="logo-video" src="assets/pictures/logo_anim.mp4"/></Link>
           
           <li className="nav-item">
             <Link to="/virtual-assets" className="nav-link">VIRTUAL ASSETS</Link>

@@ -1,14 +1,22 @@
 import React from 'react';
 import VanillaTilt from 'vanilla-tilt';
 import './SocialMediaButtons.css';
+import {useEffect} from 'react';
 
 const SocialMediaButtons = () => {
 
-    VanillaTilt.init(document.querySelectorAll(".sci li a"), {
-        max: 30,
-        speed: 400,
-        glare: true
+  useEffect(() => {
+    const elements = document.querySelectorAll(".sci li a");
+    VanillaTilt.init(elements, {
+      max: 30,
+      speed: 400,
+      glare: false
     });
+
+    return () => {
+      elements.forEach((el) => el.vanillaTilt.destroy());
+    };
+  }, []); 
     
   return (
    <ul class="sci">
