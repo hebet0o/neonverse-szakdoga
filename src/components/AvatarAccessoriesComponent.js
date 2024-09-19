@@ -1,10 +1,17 @@
 import React from 'react';
 import "./AvatarAccessoriesComponent.css";
+import ReadyPlayerMeComponent from './ReadyPlayerMeComponent.js';
 
 const AvatarAccessoriesComponent = () => {
- 
+
     return(
-        <h1>Avatar Accessories</h1>
+        <div className='avatarBgDiv'>
+            <div className='avatarCtrlDiv'>
+                <div className="avatarBuilder">
+                    <ReadyPlayerMeComponent />
+                </div>
+            </div>
+        </div>
     ); 
 };
 

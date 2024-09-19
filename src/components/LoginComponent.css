@@ -55,6 +55,8 @@
   }
   
   .error-message {
+    font-family: 'cyberpunk';
+    font-size: 20px;
     color: greenyellow;
     text-align: center;
   }
