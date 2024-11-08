@@ -12,7 +12,7 @@
 # Technikai adatok
  - Frontend: React
  - Backend: Node.js
- - Adatbázis: MongoDB
+ - Adatbázis: PostgreSQL
 
 # További funkciók:
  - Service Workers és Web Push Notifications integrálása a PWA funkcionalitás érdekében 
