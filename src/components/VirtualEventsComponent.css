@@ -1,0 +1,19 @@
+.EventsMainDiv {
+    text-align: center;
+}
+
+.EventsCarousel {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.EmptyEventCard {
+    width: 200px; /* Adjust the width to match EventCardComponent */
+    height: 100px; /* Adjust the height to match EventCardComponent */
+    border: 1px solid transparent;
+}
+
+.EventsNavigation {
+    margin-top: 10px;
+}
