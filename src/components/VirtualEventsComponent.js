@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./VirtualEventsComponent.css";
-import EventCardComponent from './EventCardComponent.js';
+import EventCardComponent from '../cards/EventCardComponent.js';
 
 
 //npm install axios
@@ -41,18 +41,25 @@ const VirtualEventsComponent = () => {
         <div className='EventsMainDiv'>
             <video autoPlay muted loop className="background-video" src="assets/pictures/avataraccessoriesbg.mp4"/>
             <h2>Events This Week</h2>
-            <div className='EventsCarousel'>
-                {currentEvents.map((event, index) => (
-                    <EventCardComponent key={index} event={event} />
-                ))}
-                {currentEvents.length < eventsPerPage && Array(eventsPerPage - currentEvents.length).fill(null).map((_, index) => (
-                    <div key={index} className='EmptyEventCard'></div>
-                ))}
-            </div>
-            <div className='EventsNavigation'>
-                {currentIndex > 0 && <button onClick={prevEvents}>Left</button>}
-                {currentIndex + eventsPerPage < events.length && <button onClick={nextEvents}>Right</button>}
-            </div>
+            {events.length === 0 ? (
+                <p>There are currently no events</p>
+            ) : 
+            (
+                <>
+                    <div className='EventsCarousel'>
+                        {currentEvents.map((event, index) => (
+                            <EventCardComponent key={index} event={event} />
+                        ))}
+                        {currentEvents.length < eventsPerPage && Array(eventsPerPage - currentEvents.length).fill(null).map((_, index) => (
+                            <div key={index} className='EmptyEventCard'></div>
+                        ))}
+                    </div>
+                    <div className='EventsNavigation'>
+                        {currentIndex > 0 && <button onClick={prevEvents}>Left</button>}
+                        {currentIndex + eventsPerPage < events.length && <button onClick={nextEvents}>Right</button>}
+                    </div>
+                </>
+            )}
         </div>
     );
 };
