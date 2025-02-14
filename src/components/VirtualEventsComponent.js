@@ -3,7 +3,7 @@ import axios from 'axios';
 import "./VirtualEventsComponent.css";
 import EventCardComponent from '../cards/EventCardComponent.js';
 
-
+axios.deafultsWithCredentials = true;
 //npm install axios
 const VirtualEventsComponent = () => {
     const [events, setEvents] = useState([]);
@@ -39,27 +39,29 @@ const VirtualEventsComponent = () => {
 
     return (
         <div className='EventsMainDiv'>
+            <div className="EventContent">
             <video autoPlay muted loop className="background-video" src="assets/pictures/avataraccessoriesbg.mp4"/>
-            <h2>Events This Week</h2>
-            {events.length === 0 ? (
-                <p>There are currently no events</p>
-            ) : 
-            (
-                <>
-                    <div className='EventsCarousel'>
-                        {currentEvents.map((event, index) => (
-                            <EventCardComponent key={index} event={event} />
-                        ))}
-                        {currentEvents.length < eventsPerPage && Array(eventsPerPage - currentEvents.length).fill(null).map((_, index) => (
-                            <div key={index} className='EmptyEventCard'></div>
-                        ))}
-                    </div>
-                    <div className='EventsNavigation'>
-                        {currentIndex > 0 && <button onClick={prevEvents}>Left</button>}
-                        {currentIndex + eventsPerPage < events.length && <button onClick={nextEvents}>Right</button>}
-                    </div>
-                </>
-            )}
+                <h1 style={{ color: '#adff2f'}}>Events This Week</h1>
+                    {events.length === 0 ? (
+                        <h2 style={{color: 'white'}}>There are currently no events</h2>
+                    ) : 
+                    (
+                        <>
+                            <div className='EventsCarousel'>
+                                {currentEvents.map((event, index) => (
+                                    <EventCardComponent key={index} event={event} />
+                                ))}
+                                {currentEvents.length < eventsPerPage && Array(eventsPerPage - currentEvents.length).fill(null).map((_, index) => (
+                                    <div key={index} className='EmptyEventCard'></div>
+                                ))}
+                            </div>
+                            <div className='EventsNavigation'>
+                                {currentIndex > 0 && <button onClick={prevEvents}>Left</button>}
+                                {currentIndex + eventsPerPage < events.length && <button onClick={nextEvents}>Right</button>}
+                            </div>
+                        </>
+                    )}
+            </div>
         </div>
     );
 };

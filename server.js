@@ -5,23 +5,31 @@ const { Pool } = require('pg');
 const app = express();
 const port = 5000;
 
-app.use(cors());
-app.use(express.json());
-
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+    methods: "GET, POST, PUT, DELETE",
+}
+app.use(cors(corsOptions));
+    app.use(express.json());
+    app.use(express.urlencoded({extended: false}));
+ 
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'neonverse_db',
+    database: 'postgres',
     password: 'admin',
     port: 5432,
 });
 
+
 app.get('/events', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM Events');
+        const result = await pool.query('SELECT * FROM neonverse_db.events');
+        console.log('Fetched events:', result.rows); // Log the fetched events
         res.json(result.rows);
     } catch (err) {
-        console.error(err.message);
+        console.error('Error fetching events:', err.message); // Log the error message
         res.status(500).send('Server Error');
     }
 });
