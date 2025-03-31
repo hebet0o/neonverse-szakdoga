@@ -1,0 +1,28 @@
+.ContactMainDiv {
+    background-image: url("/public/assets/pictures/avataraccbg.jpg");
+    position: relative;
+    width: 100vw;
+    min-height: 100vh; 
+    overflow-x: hidden; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ContactContent {
+    text-align: center;
+    color: white;
+}
+
+.ContactTitle {
+    font-family: 'cyberpunk';
+    font-size: 3rem;
+    margin-bottom: 30px;
+}
+
+.ContactCards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}

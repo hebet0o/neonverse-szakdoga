@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './LoginComponent.css';
+import axios from 'axios';
 
 const LoginComponent = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -25,14 +26,16 @@ const LoginComponent = () => {
     };
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (username === 'admin' && password === 'password') {
-      alert('Bejelentkezés sikeres!');
-        //bejelentkezes logic
-    } else {
-      setError('Hibás felhasználónév vagy jelszó!');
+    try {
+      const response = await axios.post('http://localhost:5000/login', { email, password });
+      localStorage.setItem('token', response.data.token);
+      alert('Login successful!');
+      // Redirect to another page or perform other actions
+    } catch (err) {
+      setError('Invalid email or password!');
     }
   };
 
@@ -49,12 +52,12 @@ const LoginComponent = () => {
           />
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="username">USERNAME</label>
+              <label htmlFor="email">EMAIL</label>
               <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>

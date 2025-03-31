@@ -1,9 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 const port = 5000;
+const secretKey = 'your_secret_key'; // Replace with your secret key
 
 const corsOptions = {
     origin: 'http://localhost:3000',
@@ -11,9 +14,9 @@ const corsOptions = {
     methods: "GET, POST, PUT, DELETE",
 }
 app.use(cors(corsOptions));
-    app.use(express.json());
-    app.use(express.urlencoded({extended: false}));
- 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
@@ -22,6 +25,60 @@ const pool = new Pool({
     port: 5432,
 });
 
+// Registration endpoint
+app.post('/register', async (req, res) => {
+    const { username, email, password, name, age, bio } = req.body;
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const result = await pool.query(
+            'INSERT INTO users (username, email, password, name, age, bio) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+            [username, email, hashedPassword, name, age, bio]
+        );
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        console.error('Error registering user:', err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// Login endpoint
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        if (result.rows.length === 0) {
+            return res.status(400).json({ message: 'Invalid email or password' });
+        }
+
+        const user = result.rows[0];
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Invalid email or password' });
+        }
+
+        const token = jwt.sign({ userId: user.user_id }, secretKey, { expiresIn: '1h' });
+        res.json({ token });
+    } catch (err) {
+        console.error('Error logging in:', err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// Protected route example
+app.get('/protected', (req, res) => {
+    const token = req.headers['authorization'];
+    if (!token) {
+        return res.status(401).json({ message: 'No token provided' });
+    }
+
+    jwt.verify(token, secretKey, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ message: 'Failed to authenticate token' });
+        }
+
+        res.json({ message: 'Protected route accessed', userId: decoded.userId });
+    });
+});
 
 app.get('/events', async (req, res) => {
     try {
@@ -102,4 +159,4 @@ CREATE TABLE AvatarAccessories (
     owner INT REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
-*/ 
+*/

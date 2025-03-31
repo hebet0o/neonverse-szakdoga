@@ -36,7 +36,6 @@ function App() {
     </Router>
     <SocialMediaButtons></SocialMediaButtons>
     </div>
-    
   );
 }
 

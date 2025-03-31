@@ -1,22 +1,21 @@
 .App {
-    background-color: #282c34;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  background-color: #282c34;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 HeaderComponent{
-  position: fixed;
+position: fixed;
 }
 @font-face{
-  font-family: "cyberpunk";
-  src: local("SDGlitch_Demo"),
-  url("./font/SDGlitch_Demo.ttf") format("truetype");
+font-family: "cyberpunk";
+src: local("SDGlitch_Demo"),
+url("./font/SDGlitch_Demo.ttf") format("truetype");
 }
 
 @font-face{
-  font-family: "body";
-  src: local("fsalbert-extrabold"),
-  url("./font/fsalbert-extrabold.otf") format("truetype");
+font-family: "body";
+src: local("fsalbert-extrabold"),
+url("./font/fsalbert-extrabold.otf") format("truetype");
 }
-

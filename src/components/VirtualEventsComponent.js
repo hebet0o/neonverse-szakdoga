@@ -3,11 +3,12 @@ import axios from 'axios';
 import "./VirtualEventsComponent.css";
 import EventCardComponent from '../cards/EventCardComponent.js';
 
-axios.deafultsWithCredentials = true;
-//npm install axios
+axios.defaults.withCredentials = true;
+
 const VirtualEventsComponent = () => {
     const [events, setEvents] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [animationClass, setAnimationClass] = useState('');
     const eventsPerPage = 3;
 
     useEffect(() => {
@@ -25,13 +26,21 @@ const VirtualEventsComponent = () => {
 
     const nextEvents = () => {
         if (currentIndex + eventsPerPage < events.length) {
-            setCurrentIndex(currentIndex + eventsPerPage);
+            setAnimationClass('slide-left');
+            setTimeout(() => {
+                setCurrentIndex(currentIndex + eventsPerPage);
+                setAnimationClass('');
+            }, 500);
         }
     };
 
     const prevEvents = () => {
         if (currentIndex - eventsPerPage >= 0) {
-            setCurrentIndex(currentIndex - eventsPerPage);
+            setAnimationClass('slide-right');
+            setTimeout(() => {
+                setCurrentIndex(currentIndex - eventsPerPage);
+                setAnimationClass('');
+            }, 500);
         }
     };
 
@@ -40,14 +49,14 @@ const VirtualEventsComponent = () => {
     return (
         <div className='EventsMainDiv'>
             <div className="EventContent">
-            <video autoPlay muted loop className="background-video" src="assets/pictures/avataraccessoriesbg.mp4"/>
-                <h1 style={{ color: '#adff2f'}}>Events This Week</h1>
-                    {events.length === 0 ? (
-                        <h2 style={{color: 'white'}}>There are currently no events</h2>
-                    ) : 
-                    (
-                        <>
-                            <div className='EventsCarousel'>
+                <video autoPlay muted loop className="background-video" src="assets/pictures/avataraccessoriesbg.mp4"/>
+                <h1 className="EventsTitle" style={{ color: '#adff2f'}}>Events This Week</h1>
+                {events.length === 0 ? (
+                    <h2 style={{color: 'white'}}>There are currently no events</h2>
+                ) : (
+                    <>
+                        <div className="EventsCarouselWrapper">
+                            <div className={`EventsCarousel ${animationClass}`}>
                                 {currentEvents.map((event, index) => (
                                     <EventCardComponent key={index} event={event} />
                                 ))}
@@ -55,12 +64,25 @@ const VirtualEventsComponent = () => {
                                     <div key={index} className='EmptyEventCard'></div>
                                 ))}
                             </div>
-                            <div className='EventsNavigation'>
-                                {currentIndex > 0 && <button onClick={prevEvents}>Left</button>}
-                                {currentIndex + eventsPerPage < events.length && <button onClick={nextEvents}>Right</button>}
-                            </div>
-                        </>
-                    )}
+                        </div>
+                        <div className='EventsNavigation'>
+                            <button 
+                                className={`carousel-button left ${currentIndex === 0 ? 'disabled' : ''}`} 
+                                onClick={prevEvents} 
+                                disabled={currentIndex === 0}
+                            >
+                                <img src="/assets/pictures/right-arrow.png" alt="Previous" className="arrow-icon left" />
+                            </button>
+                            <button 
+                                className={`carousel-button right ${currentIndex + eventsPerPage >= events.length ? 'disabled' : ''}`} 
+                                onClick={nextEvents} 
+                                disabled={currentIndex + eventsPerPage >= events.length}
+                            >
+                                <img src="/assets/pictures/right-arrow.png" alt="Next" className="arrow-icon right" />
+                            </button>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );
