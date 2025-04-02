@@ -1,121 +1,119 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './RegisterComponent.css';
-import axios from 'axios';
 
 const RegisterComponent = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
-  const [bio, setBio] = useState('');
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    name: '',
+    age: '',
+    bio: ''
+  });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setError('');
-    setSuccessMessage('');
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
-    if (!username || !email || !password || !name || !age || !bio) {
-      setError('All fields are required!');
-      return;
-    }
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
     try {
-      await axios.post('http://localhost:5000/register', {
-        username,
-        email,
-        password,
-        name,
-        age,
-        bio
+      console.log('Submitting form data:', formData);
+      const response = await fetch('http://localhost:5000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-      setSuccessMessage('Registration successful! You can now log in.');
-      // Optionally clear form fields
-      setUsername('');
-      setEmail('');
-      setPassword('');
-      setName('');
-      setAge('');
-      setBio('');
-    } catch (err) {
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        console.log('Registration successful');
+        navigate('/login');
       } else {
-        setError('Registration failed! Please try again later.');
+        console.error('Registration failed:', data.message);
+        alert(data.message || 'Registration failed');
       }
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('Registration failed. Please try again.');
     }
   };
 
   return (
-    <div className="register-container">
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">USERNAME</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">EMAIL</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">PASSWORD</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="name">NAME</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="age">AGE</label>
-          <input
-            type="number"
-            id="age"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="bio">BIO</label>
-          <textarea
-            id="bio"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            required
-          ></textarea>
-        </div>
-        {error && <p className="error-message">{error}</p>}
-        {successMessage && <p className="success-message">{successMessage}</p>}
-        <button type="submit" className="submit-button">
-          REGISTER
-        </button>
-      </form>
+    <div className="registerbg">
+      <div className="register-container">
+        <h2>Register</h2>
+        <form onSubmit={handleSubmit} className="register-form">
+          <div className="form-group">
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="number"
+              name="age"
+              placeholder="Age"
+              value={formData.age}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <textarea
+              name="bio"
+              placeholder="Bio"
+              value={formData.bio}
+              onChange={handleChange}
+            />
+          </div>
+          <button type="submit">Register</button>
+        </form>
+      </div>
     </div>
   );
 };
