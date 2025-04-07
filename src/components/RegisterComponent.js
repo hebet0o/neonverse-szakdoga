@@ -1,89 +1,127 @@
-import React from 'react';
-import "./RegisterComponent.css";
-import { useState } from 'react';
-
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './RegisterComponent.css';
 
 const RegisterComponent = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    name: '',
+    age: '',
+    bio: ''
+  });
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [phone, setPhone] = useState('');
-    const [email, setEmail] = useState('');
-    const [error, setError] = useState('');
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      console.log('Submitting form data:', formData);
+      const response = await fetch('http://localhost:5000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-        if (username === 'admin' && password === 'password' && phone === '123456' && email === 'asd@gmail.com') {
-        alert('Bejelentkezés sikeres!');
-            //Regisztracio logic
-        } else {
-        setError('Wrong username, or password!');
-        }
-    };
- 
-    return(
-        <div className="bgDivReg">
-      <div className="register_ctrlDiv">
-        <div className="register-container">
-          <video
+      const data = await response.json();
+      
+      if (response.ok) {
+        console.log('Registration successful');
+        navigate('/login');
+      } else {
+        console.error('Registration failed:', data.message);
+        alert(data.message || 'Registration failed');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('Registration failed. Please try again.');
+    }
+  };
+
+  return (
+    <div className="registerbg">
+      <div className="register-container">
+      <video
             autoPlay
             muted
             loop
-            className="register-video"
+            className="logo-video"
             src="assets/pictures/registertext.mp4"
           />
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="username">USERNAME</label>
-              <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">PASSWORD</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">EMAIL</label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">PHONE</label>
-              <input
-                type="phone"
-                id="phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-              />
-            </div>
-            
-            {error && <p className="error-message">{error}</p>}
-            <button type="submit" className="submit-button">
-              REGISTER
-            </button>
-          </form>
-        </div>
+        <form onSubmit={handleSubmit} className="register-form">
+          <div className="form-group">
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="number"
+              name="age"
+              placeholder="Age"
+              value={formData.age}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <textarea
+              name="bio"
+              placeholder="Bio"
+              value={formData.bio}
+              onChange={handleChange}
+            />
+          </div>
+          <button type="submit" className='auth-btn login-btn'>Register</button>
+        </form>
       </div>
     </div>
-    ); 
+  );
 };
 
 export default RegisterComponent;

@@ -21,7 +21,7 @@ import Register from './components/RegisterComponent.js';
 function App() {
   return (
     <div className="App">
-        <Router>
+    <Router>
       <HeaderComponent />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -36,7 +36,6 @@ function App() {
     </Router>
     <SocialMediaButtons></SocialMediaButtons>
     </div>
-    
   );
 }
 
