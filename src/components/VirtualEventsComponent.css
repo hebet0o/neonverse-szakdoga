@@ -36,9 +36,9 @@ html, body {
     display: flex;
     justify-content: center;
     gap: 10px;
-    position: relative; /* Add this to position buttons relative to the carousel */
-    align-items: center; /* Center items vertically */
-    overflow: hidden; /* Hide overflow to create sliding effect */
+    position: relative;
+    align-items: center;
+    overflow: hidden; 
     transition: transform 0.5s ease;
 }
 

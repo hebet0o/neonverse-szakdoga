@@ -3,8 +3,6 @@ import axios from 'axios';
 import "./VirtualEventsComponent.css";
 import EventCardComponent from '../cards/EventCardComponent.js';
 
-axios.defaults.withCredentials = true;
-
 const VirtualEventsComponent = () => {
     const [events, setEvents] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);

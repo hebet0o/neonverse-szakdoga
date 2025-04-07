@@ -58,6 +58,17 @@ app.post('/register', async (req, res) => {
   }
 });
 
+app.get('/events', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM neonverse_db.events');
+    console.log('Fetched events:', result.rows); // Log the fetched events
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching events:', err.message); // Log the error message
+    res.status(500).send('Server Error');
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

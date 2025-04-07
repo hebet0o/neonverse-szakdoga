@@ -51,7 +51,13 @@ const RegisterComponent = () => {
   return (
     <div className="registerbg">
       <div className="register-container">
-        <h2>Register</h2>
+      <video
+            autoPlay
+            muted
+            loop
+            className="logo-video"
+            src="assets/pictures/registertext.mp4"
+          />
         <form onSubmit={handleSubmit} className="register-form">
           <div className="form-group">
             <input
@@ -111,7 +117,7 @@ const RegisterComponent = () => {
               onChange={handleChange}
             />
           </div>
-          <button type="submit">Register</button>
+          <button type="submit" className='auth-btn login-btn'>Register</button>
         </form>
       </div>
     </div>
