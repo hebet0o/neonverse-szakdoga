@@ -8,11 +8,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Registration endpoint
 app.post('/register', async (req, res) => {
   try {
     const { username, email, password, name, age, bio } = req.body;
 
-    console.log('Received registration data:', req.body);
+    if (!username || !email || !password || !name || !age) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
 
     const numericAge = parseInt(age);
     if (isNaN(numericAge)) {
@@ -38,33 +41,54 @@ app.post('/register', async (req, res) => {
       RETURNING *`;
 
     const values = [username, email, hashedPassword, null, name, numericAge, bio || null];
-    
-    console.log('Executing query:', { query, values });
 
     const result = await pool.query(query, values);
-    console.log('Insert result:', result.rows[0]);
-
-    res.status(201).json({ message: 'Registration successful' });
+    res.status(201).json({ message: 'Registration successful', user: result.rows[0] });
   } catch (error) {
-    console.error('Detailed error:', {
-      message: error.message,
-      detail: error.detail,
-      code: error.code
-    });
-    res.status(500).json({ 
-      message: 'Server error',
-      detail: error.message 
-    });
+    console.error('Error during registration:', error);
+    res.status(500).json({ message: 'Server error', detail: error.message });
   }
 });
 
+// Fetch events
 app.get('/events', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM neonverse_db.events');
-    console.log('Fetched events:', result.rows); // Log the fetched events
     res.json(result.rows);
   } catch (err) {
-    console.error('Error fetching events:', err.message); // Log the error message
+    console.error('Error fetching events:', err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Fetch avatar assets
+app.get('/avatar-assets', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM neonverse_db.avatar_assets');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching avatar assets:', err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Fetch models by category
+app.get('/models/:category', async (req, res) => {
+  const { category } = req.params;
+
+  try {
+    const result = await pool.query(
+      'SELECT * FROM neonverse_db.models WHERE category = $1',
+      [category]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'No models found for this category' });
+    }
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching models:', err.message);
     res.status(500).send('Server Error');
   }
 });
