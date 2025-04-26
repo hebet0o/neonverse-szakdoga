@@ -2,11 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const pool = require('./db');
+const path = require('path');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 
 // Registration endpoint
 app.post('/register', async (req, res) => {
@@ -69,6 +72,51 @@ app.get('/avatar-assets', async (req, res) => {
   } catch (err) {
     console.error('Error fetching avatar assets:', err.message);
     res.status(500).send('Server Error');
+  }
+});
+
+// Get unique categories from models (Move this BEFORE the /models/:category route)
+app.get('/models/categories', async (req, res) => {
+  try {
+    // First, get all distinct categories
+    const categoriesResult = await pool.query(`
+      SELECT DISTINCT category 
+      FROM neonverse_db.models
+      WHERE category IS NOT NULL
+    `);
+
+    // Then get assets for each category
+    const categories = await Promise.all(
+      categoriesResult.rows.map(async (row) => {
+        const assetsResult = await pool.query(`
+          SELECT model_id, name, file_url
+          FROM neonverse_db.models
+          WHERE category = $1
+        `, [row.category]);
+
+        return {
+          id: row.category,
+          name: row.category,
+          removable: true,
+          assets: assetsResult.rows.map(asset => ({
+            id: asset.model_id,
+            name: asset.name,
+            file_url: asset.file_url
+          })),
+          colorPalette: {
+            colors: ['#FF0000', '#00FF00', '#0000FF', '#FFFFFF', '#000000']
+          }
+        };
+      })
+    );
+    
+    res.json(categories);
+  } catch (err) {
+    console.error('Error fetching categories:', err);
+    res.status(500).json({ 
+      error: 'Server Error',
+      details: err.message 
+    });
   }
 });
 
