@@ -16,7 +16,14 @@ const HeaderComponent = () => {
             <Link to="/nft" className="nav-link">NFT</Link>
           </li>
           <li className="nav-item">
-            <Link to="/avatar-accessories" className="nav-link">AVATAR ACCESSORIES</Link>
+            <a 
+              href="https://3d-avatar-builder-orpin.vercel.app/" 
+              className="nav-link" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              BUILD YOUR AVATAR
+            </a>
           </li>
           <li className="nav-item">
             <Link to="/virtual-events" className="nav-link">VIRTUAL EVENTS</Link>
