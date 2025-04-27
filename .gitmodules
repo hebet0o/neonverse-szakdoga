@@ -1,0 +1,3 @@
+[submodule "3d-avatar-builder"]
+	path = 3d-avatar-builder
+	url = https://github.com/hebet0o/3d-avatar-builder.git

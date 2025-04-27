@@ -11,7 +11,6 @@ import "./font/SDGlitch_Demo.ttf"
 import Home from './components/HomeComponent.js';
 import VirtualAssets from './components/VirtualAssetsComponent.js';
 import NFT from './components/NftComponent.js';
-import AvatarAccessories from './components/AvatarAccessoriesComponent.js';
 import VirtualEvents from './components/VirtualEventsComponent.js';
 import Contact from './components/ContactComponent.js';
 import Login from './components/LoginComponent.js';
@@ -27,7 +26,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/virtual-assets" element={<VirtualAssets />} />
         <Route path="/nft" element={<NFT />} />
-        <Route path="/avatar-accessories" element={<AvatarAccessories />} />
         <Route path="/virtual-events" element={<VirtualEvents />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
