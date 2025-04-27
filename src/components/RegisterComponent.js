@@ -1,127 +1,60 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './RegisterComponent.css';
+import pb from '../pocketbase';
+import './LoginComponent.css';
 
-const RegisterComponent = () => {
+const LoginComponent = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    name: '',
-    age: '',
-    bio: ''
-  });
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    
     try {
-      console.log('Submitting form data:', formData);
-      const response = await fetch('http://localhost:5000/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-      
-      if (response.ok) {
-        console.log('Registration successful');
-        navigate('/login');
-      } else {
-        console.error('Registration failed:', data.message);
-        alert(data.message || 'Registration failed');
-      }
+      // Authenticate with PocketBase
+      await pb.collection('users').authWithPassword(email, password);
+      alert('Login successful!');
+      navigate('/'); // Redirect to home page
     } catch (error) {
-      console.error('Registration error:', error);
-      alert('Registration failed. Please try again.');
+      console.error('Login failed:', error);
+      setErrorMessage('Invalid email or password.');
     }
   };
 
   return (
-    <div className="registerbg">
-      <div className="register-container">
-      <video
-            autoPlay
-            muted
-            loop
-            className="logo-video"
-            src="assets/pictures/registertext.mp4"
-          />
-        <form onSubmit={handleSubmit} className="register-form">
-          <div className="form-group">
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="number"
-              name="age"
-              placeholder="Age"
-              value={formData.age}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <textarea
-              name="bio"
-              placeholder="Bio"
-              value={formData.bio}
-              onChange={handleChange}
-            />
-          </div>
-          <button type="submit" className='auth-btn login-btn'>Register</button>
-        </form>
+    <div className="bgDiv">
+      <div className="ctrlDiv">
+        <div className="login-container">
+          <h2>Login</h2>
+          <form onSubmit={handleLogin}>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            <button type="submit" className="submit-button">Login</button>
+          </form>
+        </div>
       </div>
     </div>
   );
 };
 
-export default RegisterComponent;
+export default LoginComponent;
