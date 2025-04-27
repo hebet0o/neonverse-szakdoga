@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 25%;
+  margin-left: 0%;
 }
 
 .login-container {
@@ -46,7 +46,7 @@
   }
   
   .form-group input {
-    max-width: 70%;
+    max-width: 100%;
     width: 100%;
     padding: 8px;
     box-sizing: border-box;

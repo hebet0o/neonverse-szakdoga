@@ -1,41 +1,24 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import pb from '../pocketbase';
 import './LoginComponent.css';
-import axios from 'axios';
 
 const LoginComponent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate(); // Ensure this is correctly imported and used
 
-  const modelViewerRef = useRef(null);
-
-  useEffect(() => {
-    const modelViewer = modelViewerRef.current;
-
-    const handleLoad = () => {
-      modelViewer.cameraTarget = '4.6m 8m 1m';
-
-      if (modelViewer.model && modelViewer.model.scene) {
-        modelViewer.model.scene.scale.set(1, 1, 1);
-      }
-    };
-
-    modelViewer.addEventListener('load', handleLoad);
-    return () => {
-      modelViewer.removeEventListener('load', handleLoad);
-    };
-  }, []);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/login', { email, password });
-      localStorage.setItem('token', response.data.token);
+      // Authenticate with PocketBase
+      await pb.collection('users').authWithPassword(email, password);
       alert('Login successful!');
-      // Redirect to another page or perform other actions
-    } catch (err) {
-      setError('Invalid email or password!');
+      navigate('/'); // Redirect to the homepage
+    } catch (error) {
+      console.error('Login failed:', error);
+      setErrorMessage('Invalid email or password.');
     }
   };
 
@@ -43,16 +26,10 @@ const LoginComponent = () => {
     <div className="bgDiv">
       <div className="ctrlDiv">
         <div className="login-container">
-          <video
-            autoPlay
-            muted
-            loop
-            className="logo-video"
-            src="assets/pictures/logintext.webm"
-          />
-          <form onSubmit={handleSubmit}>
+          <h2>Login</h2>
+          <form onSubmit={handleLogin}>
             <div className="form-group">
-              <label htmlFor="email">EMAIL</label>
+              <label htmlFor="email">Email</label>
               <input
                 type="email"
                 id="email"
@@ -62,7 +39,7 @@ const LoginComponent = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="password">PASSWORD</label>
+              <label htmlFor="password">Password</label>
               <input
                 type="password"
                 id="password"
@@ -71,22 +48,10 @@ const LoginComponent = () => {
                 required
               />
             </div>
-            {error && <p className="error-message">{error}</p>}
-            <button type="submit" className="submit-button">
-              LOGIN
-            </button>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            <button type="submit" className="submit-button">Login</button>
           </form>
         </div>
-        <model-viewer
-          id="reveal"
-          ref={modelViewerRef}
-          autoplay
-          ar
-          ar-modes="webxr scene-viewer"
-          shadow-intensity="3"
-          src="assets/models/loginmodel.glb"
-          alt="Avatar"
-        ></model-viewer>
       </div>
     </div>
   );
