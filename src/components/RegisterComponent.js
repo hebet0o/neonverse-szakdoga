@@ -6,16 +6,16 @@ import './LoginComponent.css';
 const LoginComponent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      // Authenticate with PocketBase
       await pb.collection('users').authWithPassword(email, password);
-      alert('Login successful!');
-      navigate('/'); // Redirect to home page
+      alert('Registration!');
+      navigate('/'); 
     } catch (error) {
       console.error('Login failed:', error);
       setErrorMessage('Invalid email or password.');
@@ -26,8 +26,18 @@ const LoginComponent = () => {
     <div className="bgDiv">
       <div className="ctrlDiv">
         <div className="login-container">
-          <h2>Login</h2>
+          <video autoPlay muted loop className="logo-video" src="assets/pictures/registertext.mp4"/>
           <form onSubmit={handleLogin}>
+            <div className="form-group">
+              <label htmlFor="email">Username</label>
+              <input
+                type="email"
+                id="email"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
@@ -49,7 +59,7 @@ const LoginComponent = () => {
               />
             </div>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <button type="submit" className="submit-button">Login</button>
+            <button type="submit" className="submit-button">Register</button>
           </form>
         </div>
       </div>

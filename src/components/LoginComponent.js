@@ -12,10 +12,9 @@ const LoginComponent = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      // Authenticate with PocketBase
       await pb.collection('users').authWithPassword(email, password);
       alert('Login successful!');
-      navigate('/'); // Redirect to the homepage
+      navigate('/register');
     } catch (error) {
       console.error('Login failed:', error);
       setErrorMessage('Invalid email or password.');
@@ -26,7 +25,7 @@ const LoginComponent = () => {
     <div className="bgDiv">
       <div className="ctrlDiv">
         <div className="login-container">
-          <h2>Login</h2>
+          <video autoPlay muted loop className="logo-video" src="assets/pictures/logintext.webm"/>
           <form onSubmit={handleLogin}>
             <div className="form-group">
               <label htmlFor="email">Email</label>
