@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import pb from '../pocketbase';
-import './LoginComponent.css';
+import './RegisterComponent.css';
 
-const LoginComponent = () => {
+const RegisterComponent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleRegistration = async (e) => {
     e.preventDefault();
     try {
      await pb.collection('users').create({
@@ -22,7 +22,7 @@ const LoginComponent = () => {
       navigate('/'); 
     } catch (error) {
       console.error('Registration failed:', error);
-      setErrorMessage('Invalid email or password.');
+      setErrorMessage('Registration failed.');
     }
   };
 
@@ -31,7 +31,7 @@ const LoginComponent = () => {
       <div className="ctrlDiv">
         <div className="login-container">
           <video autoPlay muted loop className="logo-video" src="assets/pictures/registertext.mp4"/>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleRegistration}>
             <div className="form-group">
               <label htmlFor="text">Username</label>
               <input
@@ -71,4 +71,4 @@ const LoginComponent = () => {
   );
 };
 
-export default LoginComponent;
+export default RegisterComponent;
