@@ -13,11 +13,15 @@ const LoginComponent = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await pb.collection('users').authWithPassword(email, password);
-      alert('Registration!');
+     await pb.collection('users').create({
+      name: username,
+      email: email,
+      password: password,
+    });
+      alert('Successful registration!');
       navigate('/'); 
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('Registration failed:', error);
       setErrorMessage('Invalid email or password.');
     }
   };
@@ -29,10 +33,10 @@ const LoginComponent = () => {
           <video autoPlay muted loop className="logo-video" src="assets/pictures/registertext.mp4"/>
           <form onSubmit={handleLogin}>
             <div className="form-group">
-              <label htmlFor="email">Username</label>
+              <label htmlFor="text">Username</label>
               <input
-                type="email"
-                id="email"
+                type="text"
+                id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
