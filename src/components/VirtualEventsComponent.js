@@ -27,7 +27,7 @@ const VirtualEventsComponent = () => {
       setLoading(false);
     }
   }
-  
+
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -48,7 +48,7 @@ const VirtualEventsComponent = () => {
 
   return (
     <div className="EventsMainDiv">
-      <video autoPlay muted loop className="background-video" src="assets/pictures/events_background.mp4" />
+      <video autoPlay muted loop className="background-video" src="assets/pictures/avataraccessroisbg.mp4" />
       <div className="EventContent">
         <h1 className="EventsTitle">Upcoming Events</h1>
         {events.length > 0 ? (
