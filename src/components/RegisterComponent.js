@@ -1,44 +1,48 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import pb from '../pocketbase';
+import { useForm } from "react-hook-form";
 import './RegisterComponent.css';
 
 const RegisterComponent = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate();
+  const { register, handleSubmit } = useForm();
+  const [errorMessage, setErrorMessage] = useState(''); 
+  const [isLoading, setLoading] = useState(false);
 
-  const handleRegistration = async (e) => {
-    e.preventDefault();
+  async function onRegister(data) {
+    setLoading(true);
+    setErrorMessage('');
     try {
-     await pb.collection('users').create({
-      name: username,
-      email: email,
-      password: password,
-    });
-      alert('Successful registration!');
-      navigate('/'); 
+    
+      await pb.collection('users').create({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        passwordConfirm: data.password, 
+      });
+    
+      await pb.collection('users').authWithPassword(data.email, data.password);
+      setErrorMessage('Registration successful! Redirecting...');
+      setTimeout(() => {
+        window.location.href = '/'; 
+      }, 1500);
     } catch (error) {
-      console.error('Registration failed:', error);
-      setErrorMessage('Registration failed.');
+      setErrorMessage('Registration failed: ' + (error?.message || 'Unknown error'));
     }
-  };
+    setLoading(false);
+  }
 
   return (
     <div className="bgDiv">
       <div className="ctrlDiv">
         <div className="login-container">
           <video autoPlay muted loop className="logo-video" src="assets/pictures/registertext.mp4"/>
-          <form onSubmit={handleRegistration}>
+          <form onSubmit={handleSubmit(onRegister)}>
             <div className="form-group">
               <label htmlFor="text">Username</label>
               <input
                 type="text"
                 id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                {...register('username')}
                 required
               />
             </div>
@@ -47,8 +51,7 @@ const RegisterComponent = () => {
               <input
                 type="email"
                 id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register('email')}
                 required
               />
             </div>
@@ -57,18 +60,16 @@ const RegisterComponent = () => {
               <input
                 type="password"
                 id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                {...register('password')}
                 required
               />
             </div>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <button type="submit" className="submit-button">Register</button>
+            <button disabled={isLoading} type="submit" className="submit-button">{isLoading ? "Loading" : "Register"}</button>
           </form>
         </div>
       </div>
     </div>
   );
-};
-
+}
 export default RegisterComponent;

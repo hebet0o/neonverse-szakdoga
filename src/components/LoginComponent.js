@@ -1,39 +1,47 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import pb from '../pocketbase';
+import { useForm } from 'react-hook-form';
 import './LoginComponent.css';
 
 const LoginComponent = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate(); // Ensure this is correctly imported and used
+  const { register, handleSubmit } = useForm();
+  const [errorMessage, setErrorMessage] = useState(''); 
+  const [isLoading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  async function login(data) {
+    setLoading(true);
+    setErrorMessage('');
     try {
-      await pb.collection('users').authWithPassword(email, password);
-      alert('Login successful!');
-      navigate('/register');
+      await pb.collection('users').authWithPassword(data.email, data.password);
+      setLoading(false);
+      if (pb.authStore.isValid) {
+        setErrorMessage('Login successful');
+        setTimeout(() => {
+          navigate('/'); // Redirect to home or dashboard
+        }, 1000);
+      } else {
+        setErrorMessage('Login failed');
+      }
     } catch (error) {
-      console.error('Login failed:', error);
-      setErrorMessage('Invalid email or password.');
+      setErrorMessage('Login failed: ' + (error?.message || 'Unknown error'));
+      setLoading(false);
     }
-  };
+  }
 
   return (
     <div className="bgDiv">
       <div className="ctrlDiv">
         <div className="login-container">
           <video autoPlay muted loop className="logo-video" src="assets/pictures/logintext.webm"/>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleSubmit(login)}>
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
                 type="email"
                 id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register('email')}
                 required
               />
             </div>
@@ -42,13 +50,12 @@ const LoginComponent = () => {
               <input
                 type="password"
                 id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                {...register('password')}
                 required
               />
             </div>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <button type="submit" className="submit-button">Login</button>
+            <button disabled={isLoading} type="submit" className="submit-button">{isLoading ? "Loading" : "Login"}</button>
           </form>
         </div>
       </div>
