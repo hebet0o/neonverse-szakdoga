@@ -19,7 +19,7 @@ const LoginComponent = () => {
       if (pb.authStore.isValid) {
         setErrorMessage('Login successful');
         setTimeout(() => {
-          navigate('/'); // Redirect to home or dashboard
+          navigate('/');
         }, 1000);
       } else {
         setErrorMessage('Login failed');

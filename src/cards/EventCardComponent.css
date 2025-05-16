@@ -22,29 +22,29 @@
     z-index: -1; 
 }
 
-.ShortDesc {
+.EventShortDescription {
     color: #adff2f;
     font-family: 'cyberpunk';
     font-weight: normal;
     font-size: 1.5rem;
-    margin-bottom: 5px; /* Add space below the short description */
+    margin-bottom: 5px;
 }
 
-.Title {
+.EventTitle {
     font-family: 'cyberpunk';
     font-size: 2rem;
     font-weight: normal;
     margin-bottom: 5px;
 }
 
-.LongDesc {
+.EventLongDescription {
     font-family: 'body';
     font-size: 1rem;
     font-weight: lighter;
     margin-bottom: 5px;
 }
 
-.DateContainer {
+.EventDetails {
     display: flex;
     align-items: center;
     margin-bottom: 20px; 
@@ -56,7 +56,7 @@
     margin-right: 5px;
 }
 
-.Date {
+.EventTime {
     font-family: 'body';
     font-size: 1rem;
     font-weight: lighter;

@@ -14,7 +14,7 @@ const HomeComponent = () => {
                     <h2 className="green">UNIMAGINABLE.</h2>
                     <button className="explore-btn">ENTER THE WORLD</button>
                 </div>
-                <model-viewer camera-controls auto-rotate rotation-per-second="30deg" touch-action="pan-y" autoplay ar ar-modes="webxr scene-viewer" scale="0.2 0.2 0.2" camera-target="0m 0.20m 0m" shadow-intensity="2" src="assets/models/mainmodel.glb" alt="Main 3D model"></model-viewer>
+                <model-viewer camera-controls touch-action="pan-y" autoplay ar ar-modes="webxr scene-viewer" scale="0.2 0.2 0.2" camera-target="0m 0.20m 0m" shadow-intensity="2" src="assets/models/mainmodel.glb" alt="Main 3D model"></model-viewer>
             </div>
         </div>
     );

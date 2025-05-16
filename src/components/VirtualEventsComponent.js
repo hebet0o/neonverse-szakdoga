@@ -15,31 +15,28 @@ const VirtualEventsComponent = () => {
     }
   };
 
+  async function fetchEvents() {
+    setLoading(true);
+    setError('');
+    try {
+      const response = await pb.collection('events').getFullList({});
+      setEvents(response);
+    } catch (error) {
+      setError('Failed to fetch events: ' + (error?.message || 'Unknown error'));
+    } finally {
+      setLoading(false);
+    }
+  }
+  
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
   const handlePrev = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     }
   };
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        setLoading(true);
-        setError(''); // Clear any previous errors
-        console.log('Fetching events...');
-        const result = await pb.collection('Events').getFullList({});
-        console.log('Fetched events:', result);
-        setEvents(result);
-      } catch (err) {
-        console.error('Error fetching events:', err);
-        setError('Failed to load events.');
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    fetchEvents();
-  }, []);
 
   if (loading) {
     return <div>Loading events...</div>;
@@ -48,7 +45,7 @@ const VirtualEventsComponent = () => {
   if (error) {
     return <div className="error-message">{error}</div>;
   }
-  
+
   return (
     <div className="EventsMainDiv">
       <video autoPlay muted loop className="background-video" src="assets/pictures/events_background.mp4" />
