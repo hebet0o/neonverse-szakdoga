@@ -13,9 +13,12 @@ html, body, #root {
 }
 
 .EventContent {
-    text-align: center;
-    background: none;
-    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;   
+    min-height: 80vh;          
+    width: 100%;
     z-index: 1;
 }
 
@@ -36,6 +39,12 @@ html, body, #root {
     justify-content: center;  
     height: 100%;             
     min-height: 400px;        
+    transition: opacity 0.3s;
+    opacity: 1;
+}
+
+.EventCarousel.fade{
+    opacity: 0.3;
 }
 
 .slide-left {

@@ -10,6 +10,7 @@ const VirtualEventsComponent = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [page, setPage] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     async function fetchEvents() {
@@ -30,12 +31,24 @@ const VirtualEventsComponent = () => {
   const totalPages = Math.ceil(events.length / EVENTS_PER_PAGE);
 
   const handlePrev = () => {
-    if (page > 0) setPage(page - 1);
-  };
+  if (page > 0) {
+    setIsAnimating(true);
+    setTimeout(() => {
+      setPage(page - 1);
+      setIsAnimating(false);
+    }, 300);
+  }
+};
 
-  const handleNext = () => {
-    if (page < totalPages - 1) setPage(page + 1);
-  };
+const handleNext = () => {
+  if (page < totalPages - 1) {
+    setIsAnimating(true);
+    setTimeout(() => {
+      setPage(page + 1);
+      setIsAnimating(false);
+    }, 300);
+  }
+};
 
   if (loading) {
     return <div>Loading events...</div>;
@@ -49,6 +62,7 @@ const VirtualEventsComponent = () => {
   const startIdx = page * EVENTS_PER_PAGE;
   const currentEvents = events.slice(startIdx, startIdx + EVENTS_PER_PAGE);
 
+
   return (
     <div className="EventsMainDiv">
       <video autoPlay muted loop className="background-video" src="assets/pictures/avataraccessoriesbg.mp4" />
@@ -56,7 +70,7 @@ const VirtualEventsComponent = () => {
         <h1 className="EventsTitle">Upcoming Events</h1>
         {events.length > 0 ? (
           <>
-            <div className="EventsCarousel">
+            <div className={`EventsCarousel${isAnimating ? ' fade' : ''}`}>
               {currentEvents.map((event) => (
                 <EventCardComponent key={event.id} event={event} />
               ))}
