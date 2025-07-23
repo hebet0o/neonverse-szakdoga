@@ -106,12 +106,19 @@ html, body, #root {
 }
 
 .arrow-icon.left {
-    transform: rotate(180deg); /* Rotate the image for the left button */
+    transform: rotate(180deg); 
 }
 
 .EventsTitle {
     font-family: 'cyberpunk';
     font-size: 3rem;
+    color:#9acd32;
     font-weight: normal;
     margin-bottom: 30px;
 }
+
+.carousel-page-indicator {
+    font-family: 'cyberpunk';    
+    font-size: 1.2rem;
+    color: #9acd32;
+}   
