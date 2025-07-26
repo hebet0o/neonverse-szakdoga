@@ -33,7 +33,7 @@
   width: 50%;
 }
 
-.content h1, .content h2 {
+.maintitle, .content h2 {
   font-size: 48px;
   font-family: "cyberpunk", sans-serif;
   color: #adff2f;

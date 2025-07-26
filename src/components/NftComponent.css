@@ -24,13 +24,13 @@
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
+    top: 25vh;
 }
 
 .NFTTitle {
     font-family: 'Orbitron', 'cyberpunk', sans-serif;
     font-size: 3rem;
-    color: #00ffe7;
-    text-shadow: 0 0 10px #00ffe7, 0 0 20px #0ff;
+    color: #9acd32;
     margin-bottom: 40px;
     letter-spacing: 2px;
 }
@@ -47,9 +47,7 @@
 
 .NFTCard {
     background: rgba(25, 25, 40, 0.85);
-    border: 2px solid #00ffe7;
     border-radius: 18px;
-    box-shadow: 0 0 24px #00ffe744, 0 2px 24px #000a;
     padding: 24px 18px;
     color: #fff;
     display: flex;
@@ -62,8 +60,6 @@
 
 .NFTCard:hover {
     transform: translateY(-8px) scale(1.03);
-    box-shadow: 0 0 32px #00ffe7cc, 0 4px 32px #000c;
-    border-color: #ff00cc;
 }
 
 .NFTCard img {
@@ -72,14 +68,13 @@
     object-fit: cover;
     border-radius: 12px;
     margin-bottom: 18px;
-    box-shadow: 0 0 16px #00ffe7aa;
     background: #222;
 }
 
 .NFTCard .NFTName {
     font-size: 1.3rem;
-    font-family: 'Orbitron', 'cyberpunk', sans-serif;
-    color: #ff00cc;
+    font-family: 'cyberpunk', 'Orbitron', sans-serif;
+    color: white;
     margin-bottom: 8px;
     text-shadow: 0 0 6px #ff00cc88;
 }
@@ -125,4 +120,19 @@
     font-size: 1.2rem;
     margin-top: 20px;
     text-align: center;
+}
+
+.NFTCollection, .NFTContract, .NFTTokenStandard {
+  font-size: 0.95rem;
+  color: #00ffe7;
+  margin-bottom: 6px;
+}
+
+.NFTLink {
+  display: inline-block;
+  margin: 10px 0;
+  color: #ff00cc;
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 1rem;
 }

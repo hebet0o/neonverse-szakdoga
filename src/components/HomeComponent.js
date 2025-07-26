@@ -1,5 +1,6 @@
 import React from "react";
 import './HomeComponent.css';
+import DecryptedText from "../text-animations/DecryptedText";
 
 const HomeComponent = () => {
     return (
@@ -7,7 +8,17 @@ const HomeComponent = () => {
             <video autoPlay muted loop className="background-video" src="assets/pictures/background.mp4"/>
             <div className="content">
                 <div className="text-content">
-                    <h1>SEE INTO THE FUTURE</h1>
+                    <DecryptedText
+                        text="SEE INTO THE FUTURE"
+                        speed={100}
+                        maxIterations={20}
+                        characters="ABCD1234!?"
+                        className="revealed maintitle"
+                        parentClassName="all-letters"
+                        encryptedClassName="encrypted"
+                        sequential={true}
+                        animateOn="view"
+                    />
                     <p>Step into a world where reality blends with the digital.<br/>
                     Explore a marketplace built for the next generation<br/>
                     where you can BUY, SELL, AND EXPERIENCE the</p>
