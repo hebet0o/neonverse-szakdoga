@@ -18,7 +18,7 @@ import Register from './components/RegisterComponent.js';
 
 
 function App() {
-  return (
+  return (   
     <div className="App">
     <Router>
       <HeaderComponent className="HeaderComponent"/>
