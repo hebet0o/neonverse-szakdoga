@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import './NftComponent.css';
 import BlurText from '../text-animations/BlurText';
+import NFTCard from '../cards/NFTCard';
 
 const NFTComponent = () => {
-  const [nfts, setNFTs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [featuredNFTs, setFeaturedNFTs] = useState([]);
+  const [randomNFTs, setRandomNFTs] = useState([]);
+  const [loadingFeatured, setLoadingFeatured] = useState(true);
+  const [loadingRandom, setLoadingRandom] = useState(true);
+  const [errorFeatured, setErrorFeatured] = useState('');
+  const [errorRandom, setErrorRandom] = useState('');
 
   useEffect(() => {
-    async function fetchNFTs() {
-      setLoading(true);
-      setError('');
+    async function fetchFeaturedNFTs() {
+      setLoadingFeatured(true);
+      setErrorFeatured('');
       try {
         const options = {
           method: 'GET',
           headers: {
             accept: 'application/json',
-            'X-API-KEY': process.env.REACT_APP_OPENSEA_API_KEY // optional, for higher rate limits
+            'X-API-KEY': process.env.REACT_APP_OPENSEA_API_KEY
           }
         };
         const response = await fetch(
@@ -24,69 +28,93 @@ const NFTComponent = () => {
           options
         );
         const data = await response.json();
-        console.log(data);
-        setNFTs(data.nfts || []);
+        setFeaturedNFTs(data.nfts || []);
       } catch (err) {
-        setError('Failed to fetch NFTs: ' + (err?.message || 'Unknown error'));
+        setErrorFeatured('Failed to fetch NFTs: ' + (err?.message || 'Unknown error'));
       } finally {
-        setLoading(false);
+        setLoadingFeatured(false);
       }
     }
-    fetchNFTs();
+    async function fetchRandomNFTs() {
+      setLoadingRandom(true);
+      setErrorRandom('');
+      try {
+        const options = {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+            'X-API-KEY': process.env.REACT_APP_OPENSEA_API_KEY
+          }
+        };
+        const response = await fetch(
+          'https://api.opensea.io/api/v2/collection/cryptopunks/nfts?limit=4',
+          options
+        );
+        const data = await response.json();
+        setRandomNFTs(data.nfts || []);
+      } catch (err) {
+        setErrorRandom('Failed to fetch NFTs: ' + (err?.message || 'Unknown error'));
+      } finally {
+        setLoadingRandom(false);
+      }
+    }
+    fetchFeaturedNFTs();
+    fetchRandomNFTs();
   }, []);
 
   return (
     <div className="NFTMainDiv">
-      <video autoPlay muted loop className="NFTBackgroundVideo" src="assets/pictures/avataraccessoriesbg.mp4" />
-      <div className="NFTContent">
-        <BlurText
-          text="Featured NFTs"
-          delay={150}
-          animateBy="words"
-          direction="top"
-          className="text-2xl mb-8 NFTTitle"
-        />
-        {loading ? (
-          <div>Loading NFTs...</div>
-        ) : error ? (
-          <div className="error-message">{error}</div>
-        ) : nfts.length > 0 ? (
-          <div className="NFTCarousel">
-            {nfts.map((nft) => (
-              <div className="NFTCard" key={nft.identifier}>
-                <h3 className="NFTName">{nft.name || 'Unnamed NFT'}</h3>
-                <img
-                  src={nft.display_image_url || nft.image_url || 'https://via.placeholder.com/200'}
-                  alt={nft.name}
-                />
-                <p className="NFTDescription">{nft.description || 'No description'}</p>
-                <p className="NFTCollection">
-                  <strong>Collection:</strong> {nft.collection}
-                </p>
-                <p className="NFTContract">
-                  <strong>Contract:</strong> {nft.contract}
-                </p>
-                <p className="NFTTokenStandard">
-                  <strong>Token Standard:</strong> {nft.token_standard}
-                </p>
-                <a
-                  className="NFTLink"
-                  href={nft.opensea_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View on OpenSea
-                </a>
-                <button className="NFTBuyButton" disabled>
-                  Buy NFT (Demo)
-                </button>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="NFTEmpty">No NFTs available</div>
-        )}
-      </div>
+      {/* Featured NFTs Section */}
+      <section className="NFTSection NFTFeaturedSection">
+        <video autoPlay muted loop className="NFTBackgroundVideo" src="assets/pictures/avataraccessoriesbg.mp4" />
+        <div className="NFTContent">
+          <BlurText
+            text="Featured NFTs"
+            delay={150}
+            animateBy="words"
+            direction="top"
+            className="text-2xl mb-8 NFTTitle"
+          />
+          {loadingFeatured ? (
+            <div>Loading NFTs...</div>
+          ) : errorFeatured ? (
+            <div className="error-message">{errorFeatured}</div>
+          ) : featuredNFTs.length > 0 ? (
+            <div className="NFTCarousel">
+              {featuredNFTs.map((nft) => (
+                <NFTCard key={nft.identifier} nft={nft} />
+              ))}
+            </div>
+          ) : (
+            <div className="NFTEmpty">No NFTs available</div>
+          )}
+        </div>
+      </section>
+      {/* Random Collection Section */}
+      <section className="NFTSection NFTRandomSection">
+        <div className="NFTContent">
+          <BlurText
+            text="CRYPTOPUNKS"
+            delay={150}
+            animateBy="words"
+            direction="top"
+            className="text-2xl mb-8 NFTTitle"
+          />
+          {loadingRandom ? (
+            <div>Loading NFTs...</div>
+          ) : errorRandom ? (
+            <div className="error-message">{errorRandom}</div>
+          ) : randomNFTs.length > 0 ? (
+            <div className="NFTCarousel">
+              {randomNFTs.map((nft) => (
+                <NFTCard key={nft.identifier} nft={nft} />
+              ))}
+            </div>
+          ) : (
+            <div className="NFTEmpty">No NFTs available</div>
+          )}
+        </div>
+      </section>
     </div>
   );
 };

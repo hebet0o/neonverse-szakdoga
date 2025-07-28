@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import pb from '../pocketbase';
 import EventCardComponent from '../cards/EventCardComponent';
 import './VirtualEventsComponent.css';
+import BlurText from '../text-animations/BlurText';
 
 const EVENTS_PER_PAGE = 3;
 
@@ -67,7 +68,13 @@ const handleNext = () => {
     <div className="EventsMainDiv">
       <video autoPlay muted loop className="background-video" src="assets/pictures/avataraccessoriesbg.mp4" />
       <div className="EventContent">
-        <h1 className="EventsTitle">Upcoming Events</h1>
+        <BlurText
+            text="Upcoming Events"
+            delay={150}
+            animateBy="words"
+            direction="top"
+            className="text-2xl mb-8 NFTTitle"
+          />
         {events.length > 0 ? (
           <>
             <div className={`EventsCarousel${isAnimating ? ' fade' : ''}`}>
@@ -83,9 +90,6 @@ const handleNext = () => {
               >
                 <img src="assets/pictures/right-arrow.png" alt="Previous" className="arrow-icon left" />
               </button>
-              <span className="carousel-page-indicator">
-                {page + 1} / {totalPages}
-              </span>
               <button
                 className={`carousel-button ${page === totalPages - 1 ? 'disabled' : ''}`}
                 onClick={handleNext}

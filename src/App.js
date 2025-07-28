@@ -10,7 +10,7 @@ import "./font/SDGlitch_Demo.ttf"
 
 import Home from './components/HomeComponent.js';
 import VirtualAssets from './components/VirtualAssetsComponent.js';
-import NFT from './components/NftComponent.js';
+import NFT from './components/NFTComponent.js';
 import VirtualEvents from './components/VirtualEventsComponent.js';
 import Contact from './components/ContactComponent.js';
 import Login from './components/LoginComponent.js';
@@ -21,7 +21,7 @@ function App() {
   return (
     <div className="App">
     <Router>
-      <HeaderComponent />
+      <HeaderComponent className="HeaderComponent"/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/virtual-assets" element={<VirtualAssets />} />
@@ -32,7 +32,7 @@ function App() {
         <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
-    <SocialMediaButtons></SocialMediaButtons>
+    <SocialMediaButtons className="SocialMediaButtons"></SocialMediaButtons>
     </div>
   );
 }

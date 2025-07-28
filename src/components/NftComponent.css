@@ -19,12 +19,12 @@
 .NFTContent {
     position: relative;
     z-index: 1;
-    padding: 40px 0 0 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    top: 25vh;
+    margin: 0;
+    top: 17vh;
 }
 
 .NFTTitle {
@@ -45,68 +45,6 @@
     padding-bottom: 40px;
 }
 
-.NFTCard {
-    background: rgba(25, 25, 40, 0.85);
-    border-radius: 18px;
-    padding: 24px 18px;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-    position: relative;
-    overflow: hidden;
-}
-
-.NFTCard:hover {
-    transform: translateY(-8px) scale(1.03);
-}
-
-.NFTCard img {
-    width: 180px;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 18px;
-    background: #222;
-}
-
-.NFTCard .NFTName {
-    font-size: 1.3rem;
-    font-family: 'cyberpunk', 'Orbitron', sans-serif;
-    color: white;
-    margin-bottom: 8px;
-    text-shadow: 0 0 6px #ff00cc88;
-}
-
-.NFTCard .NFTDescription {
-    font-size: 1rem;
-    color: #00ffe7;
-    margin-bottom: 12px;
-    text-align: center;
-    min-height: 40px;
-}
-
-.NFTCard .NFTBuyButton {
-    background: linear-gradient(90deg, #ff00cc 0%, #00ffe7 100%);
-    color: #222;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 28px;
-    font-size: 1rem;
-    font-family: 'Orbitron', 'cyberpunk', sans-serif;
-    cursor: pointer;
-    box-shadow: 0 0 8px #00ffe7aa;
-    transition: background 0.2s, color 0.2s;
-    margin-top: 10px;
-}
-
-.NFTCard .NFTBuyButton:disabled {
-    background: #444;
-    color: #888;
-    cursor: not-allowed;
-}
-
 .NFTEmpty {
     color: #fff;
     font-size: 1.5rem;
@@ -122,17 +60,33 @@
     text-align: center;
 }
 
-.NFTCollection, .NFTContract, .NFTTokenStandard {
-  font-size: 0.95rem;
-  color: #00ffe7;
-  margin-bottom: 6px;
+.NFTRandomSection {
+  background: #333333;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-.NFTLink {
-  display: inline-block;
-  margin: 10px 0;
-  color: #ff00cc;
-  text-decoration: underline;
-  font-weight: bold;
-  font-size: 1rem;
+.NFTRandomSection .NFTContent {
+  position: relative;
+  z-index: 1;
+  padding: 40px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+.NFTFeaturedSection {
+  position: relative;
+  width: 100vw;
+  min-height: 80vh;
+  overflow: hidden; /* Prevent Cubes from overflowing below */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
