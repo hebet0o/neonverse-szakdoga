@@ -32,24 +32,62 @@ const VirtualEventsComponent = () => {
   const totalPages = Math.ceil(events.length / EVENTS_PER_PAGE);
 
   const handlePrev = () => {
-  if (page > 0) {
-    setIsAnimating(true);
-    setTimeout(() => {
-      setPage(page - 1);
-      setIsAnimating(false);
-    }, 300);
-  }
-};
+    if (page > 0) {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setPage(page - 1);
+        setIsAnimating(false);
+      }, 300);
+    }
+  };
 
-const handleNext = () => {
-  if (page < totalPages - 1) {
-    setIsAnimating(true);
-    setTimeout(() => {
-      setPage(page + 1);
-      setIsAnimating(false);
-    }, 300);
-  }
-};
+  const handleNext = () => {
+    if (page < totalPages - 1) {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setPage(page + 1);
+        setIsAnimating(false);
+      }, 300);
+    }
+  };
+
+  // Get only the events for the current page
+  const startIdx = page * EVENTS_PER_PAGE;
+  const currentEvents = events.slice(startIdx, startIdx + EVENTS_PER_PAGE);
+
+  // Create Event form state
+  const [newEventName, setNewEventName] = useState('');
+  const [newEventDescription, setNewEventDescription] = useState('');
+  const [newEventDate, setNewEventDate] = useState('');
+  const [createLoading, setCreateLoading] = useState(false);
+  const [createError, setCreateError] = useState('');
+  const [createSuccess, setCreateSuccess] = useState('');
+
+  const handleCreateEvent = async (e) => {
+    e.preventDefault();
+    setCreateLoading(true);
+    setCreateError('');
+    setCreateSuccess('');
+    try {
+      const newEvent = {
+        name: newEventName,
+        description: newEventDescription,
+        date: newEventDate,
+      };
+      await pb.collection('events').create(newEvent);
+      setCreateSuccess('Event created successfully!');
+      setNewEventName('');
+      setNewEventDescription('');
+      setNewEventDate('');
+      // Refresh events list
+      const response = await pb.collection('events').getFullList({});
+      setEvents(response);
+    } catch (error) {
+      setCreateError('Failed to create event: ' + (error?.message || 'Unknown error'));
+    } finally {
+      setCreateLoading(false);
+    }
+  };
 
   if (loading) {
     return <div>Loading events...</div>;
@@ -59,22 +97,17 @@ const handleNext = () => {
     return <div className="error-message">{error}</div>;
   }
 
-  // Get only the events for the current page
-  const startIdx = page * EVENTS_PER_PAGE;
-  const currentEvents = events.slice(startIdx, startIdx + EVENTS_PER_PAGE);
-
-
   return (
     <div className="EventsMainDiv">
       <video autoPlay muted loop className="background-video" src="assets/pictures/avataraccessoriesbg.mp4" />
       <div className="EventContent">
         <BlurText
-            text="Upcoming Events"
-            delay={150}
-            animateBy="words"
-            direction="top"
-            className="text-2xl mb-8 NFTTitle"
-          />
+          text="Upcoming Events"
+          delay={150}
+          animateBy="words"
+          direction="top"
+          className="text-2xl mb-8 NFTTitle"
+        />
         {events.length > 0 ? (
           <>
             <div className={`EventsCarousel${isAnimating ? ' fade' : ''}`}>
@@ -97,6 +130,46 @@ const handleNext = () => {
               >
                 <img src="assets/pictures/right-arrow.png" alt="Next" className="arrow-icon" />
               </button>
+            </div>
+            {/* Create Event Section */}
+            <div className="CreateEventSection">
+              <BlurText
+                text="Create New Event"
+                delay={150}
+                animateBy="words"
+                direction="top"
+                className="text-xl mb-4 CreateEventTitle"
+              />
+              <form className="CreateEventForm" onSubmit={handleCreateEvent}>
+                <input
+                  type="text"
+                  placeholder="Event Name"
+                  className="CreateEventInput"
+                  value={newEventName}
+                  onChange={e => setNewEventName(e.target.value)}
+                  required
+                />
+                <textarea
+                  placeholder="Description"
+                  className="CreateEventInput"
+                  rows={3}
+                  value={newEventDescription}
+                  onChange={e => setNewEventDescription(e.target.value)}
+                  required
+                />
+                <input
+                  type="date"
+                  className="CreateEventInput"
+                  value={newEventDate}
+                  onChange={e => setNewEventDate(e.target.value)}
+                  required
+                />
+                <button type="submit" className="CreateEventButton" disabled={createLoading}>
+                  {createLoading ? 'Creating...' : 'Create Event'}
+                </button>
+                {createError && <div className="error-message">{createError}</div>}
+                {createSuccess && <div className="success-message">{createSuccess}</div>}
+              </form>
             </div>
           </>
         ) : (

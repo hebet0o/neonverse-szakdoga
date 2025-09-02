@@ -121,4 +121,62 @@ html, body, #root {
     font-family: 'cyberpunk';    
     font-size: 1.2rem;
     color: #9acd32;
-}   
+}
+
+.CreateEventSection {
+  margin-top: 48px;
+  background: rgba(30, 30, 40, 0.85);
+  border-radius: 18px;
+  box-shadow: 0 0 24px #00ffe744;
+  padding: 32px 24px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.CreateEventTitle {
+  font-family: 'Orbitron', 'cyberpunk', sans-serif;
+  color: #00ffe7;
+  margin-bottom: 24px;
+  font-size: 2rem;
+  text-shadow: 0 0 10px #00ffe7, 0 0 20px #0ff;
+}
+
+.CreateEventForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.CreateEventInput {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #00ffe7;
+  background: #222;
+  color: #fff;
+  font-size: 1rem;
+  font-family: 'body', sans-serif;
+  margin-bottom: 8px;
+}
+
+.CreateEventButton {
+  background: linear-gradient(90deg, #ff00cc 0%, #00ffe7 100%);
+  color: #222;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 1.1rem;
+  font-family: 'Orbitron', 'cyberpunk', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 0 8px #00ffe7aa;
+  transition: background 0.2s, color 0.2s;
+  margin-top: 10px;
+}
+
+.CreateEventButton:hover {
+  background: linear-gradient(90deg, #00ffe7 0%, #ff00cc 100%);
+  color: #fff;
+}
