@@ -57,7 +57,8 @@ const VirtualEventsComponent = () => {
 
   // Create Event form state
   const [newEventName, setNewEventName] = useState('');
-  const [newEventDescription, setNewEventDescription] = useState('');
+  const [newEventLongDescription, setNewEventLongDescription] = useState('');
+  const [newEventShortDescription, setNewEventShortDescription] = useState('');
   const [newEventDate, setNewEventDate] = useState('');
   const [createLoading, setCreateLoading] = useState(false);
   const [createError, setCreateError] = useState('');
@@ -70,16 +71,17 @@ const VirtualEventsComponent = () => {
     setCreateSuccess('');
     try {
       const newEvent = {
-        name: newEventName,
-        description: newEventDescription,
-        date: newEventDate,
+        title: newEventName,
+        short_description: newEventShortDescription,
+        long_description: newEventLongDescription,
+        time: newEventDate,
       };
       await pb.collection('events').create(newEvent);
       setCreateSuccess('Event created successfully!');
       setNewEventName('');
       setNewEventDescription('');
       setNewEventDate('');
-      // Refresh events list
+      //refresh
       const response = await pb.collection('events').getFullList({});
       setEvents(response);
     } catch (error) {
@@ -131,7 +133,7 @@ const VirtualEventsComponent = () => {
                 <img src="assets/pictures/right-arrow.png" alt="Next" className="arrow-icon" />
               </button>
             </div>
-            {/* Create Event Section */}
+            {/* Create Event*/}
             <div className="CreateEventSection">
               <BlurText
                 text="Create New Event"
@@ -149,12 +151,20 @@ const VirtualEventsComponent = () => {
                   onChange={e => setNewEventName(e.target.value)}
                   required
                 />
+                <input
+                  type="text"
+                  placeholder="Short Description (e.g. 'Workshop on AI')"
+                  className="CreateEventInput"
+                  value={newEventShortDescription}
+                  onChange={e => setNewEventShortDescription(e.target.value)}
+                  required
+                />
                 <textarea
                   placeholder="Description"
                   className="CreateEventInput"
                   rows={3}
-                  value={newEventDescription}
-                  onChange={e => setNewEventDescription(e.target.value)}
+                  value={newEventLongDescription}
+                  onChange={e => setNewEventLongDescription(e.target.value)}
                   required
                 />
                 <input
