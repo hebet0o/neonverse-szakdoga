@@ -101,87 +101,97 @@ const VirtualEventsComponent = () => {
   }
 
   return (
-    <><div className="EventsMainDiv">
-      <video autoPlay muted loop className="background-video" src="assets/pictures/avataraccessoriesbg.mp4" />
-      <div className="EventContent">
-        <BlurText
-          text="Upcoming Events"
-          delay={150}
-          animateBy="words"
-          direction="top"
-          className="text-2xl mb-8 NFTTitle" />
-        {events.length > 0 ? (
-          <>
-            <div className={`EventsCarousel${isAnimating ? ' fade' : ''}`}>
-              {currentEvents.map((event) => (
-                <EventCardComponent key={event.id} event={event} />
-              ))}
-            </div>
-            <div className="EventsNavigation">
-              <button
-                className={`carousel-button ${page === 0 ? 'disabled' : ''}`}
-                onClick={handlePrev}
-                disabled={page === 0}
-              >
-                <img src="assets/pictures/right-arrow.png" alt="Previous" className="arrow-icon left" />
+    <>
+      <div className="EventsMainDiv">
+        {/* Section 1: Events Carousel */}
+        <section className="EventsSection EventsCarouselSection">
+          <video autoPlay muted loop className="background-video" src="assets/pictures/avataraccessoriesbg.mp4" />
+          <div className="EventContent">
+            <BlurText
+              text="Upcoming Events"
+              delay={150}
+              animateBy="words"
+              direction="top"
+              className="text-2xl mb-8 NFTTitle"
+            />
+            {loading ? (
+              <div>Loading events...</div>
+            ) : error ? (
+              <div className="error-message">{error}</div>
+            ) : events.length > 0 ? (
+              <>
+                <div className={`EventsCarousel${isAnimating ? ' fade' : ''}`}>
+                  {currentEvents.map((event) => (
+                    <EventCardComponent key={event.id} event={event} />
+                  ))}
+                </div>
+                <div className="EventsNavigation">
+                  <button
+                    className={`carousel-button ${page === 0 ? 'disabled' : ''}`}
+                    onClick={handlePrev}
+                    disabled={page === 0}
+                  >
+                    <img src="assets/pictures/right-arrow.png" alt="Previous" className="arrow-icon left" />
+                  </button>
+                  <button
+                    className={`carousel-button ${page === totalPages - 1 ? 'disabled' : ''}`}
+                    onClick={handleNext}
+                    disabled={page === totalPages - 1}
+                  >
+                    <img src="assets/pictures/right-arrow.png" alt="Next" className="arrow-icon" />
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="EmptyEventCard">No events available</div>
+            )}
+          </div>
+        </section>
+        <section className="EventsSection CreateEventSectionWrapper">
+          <div className="CreateEventSection">
+            <BlurText
+              text="Create New Event"
+              delay={150}
+              animateBy="words"
+              direction="top"
+              className="text-xl mb-4 CreateEventTitle" />
+            <form className="CreateEventForm" onSubmit={handleCreateEvent}>
+              <input
+                type="text"
+                placeholder="Event Name"
+                className="CreateEventInput"
+                value={newEventName}
+                onChange={e => setNewEventName(e.target.value)}
+                required />
+              <input
+                type="text"
+                placeholder="Short Description (e.g. 'Workshop on AI')"
+                className="CreateEventInput"
+                value={newEventShortDescription}
+                onChange={e => setNewEventShortDescription(e.target.value)}
+                required />
+              <textarea
+                placeholder="Description"
+                className="CreateEventInput"
+                rows={3}
+                value={newEventLongDescription}
+                onChange={e => setNewEventLongDescription(e.target.value)}
+                required />
+              <input
+                type="date"
+                className="CreateEventInput"
+                value={newEventDate}
+                onChange={e => setNewEventDate(e.target.value)}
+                required />
+              <button type="submit" className="CreateEventButton" disabled={createLoading}>
+                {createLoading ? 'Creating...' : 'Create Event'}
               </button>
-              <button
-                className={`carousel-button ${page === totalPages - 1 ? 'disabled' : ''}`}
-                onClick={handleNext}
-                disabled={page === totalPages - 1}
-              >
-                <img src="assets/pictures/right-arrow.png" alt="Next" className="arrow-icon" />
-              </button>
-            </div>
-          </>
-        ) : (
-          <div className="EmptyEventCard">No events available</div>
-        )}
+              {createError && <div className="error-message">{createError}</div>}
+              {createSuccess && <div className="success-message">{createSuccess}</div>}
+            </form>
+          </div>
+        </section>
       </div>
-    </div><section className="EventsSection CreateEventSectionWrapper">
-        <div className="CreateEventSection">
-          <BlurText
-            text="Create New Event"
-            delay={150}
-            animateBy="words"
-            direction="top"
-            className="text-xl mb-4 CreateEventTitle" />
-          <form className="CreateEventForm" onSubmit={handleCreateEvent}>
-            <input
-              type="text"
-              placeholder="Event Name"
-              className="CreateEventInput"
-              value={newEventName}
-              onChange={e => setNewEventName(e.target.value)}
-              required />
-            <input
-              type="text"
-              placeholder="Short Description (e.g. 'Workshop on AI')"
-              className="CreateEventInput"
-              value={newEventShortDescription}
-              onChange={e => setNewEventShortDescription(e.target.value)}
-              required />
-            <textarea
-              placeholder="Description"
-              className="CreateEventInput"
-              rows={3}
-              value={newEventLongDescription}
-              onChange={e => setNewEventLongDescription(e.target.value)}
-              required />
-            <input
-              type="date"
-              className="CreateEventInput"
-              value={newEventDate}
-              onChange={e => setNewEventDate(e.target.value)}
-              required />
-            <button type="submit" className="CreateEventButton" disabled={createLoading}>
-              {createLoading ? 'Creating...' : 'Create Event'}
-            </button>
-            {createError && <div className="error-message">{createError}</div>}
-            {createSuccess && <div className="success-message">{createSuccess}</div>}
-          </form>
-        </div>
-      </section>
     </>
   );
 };
