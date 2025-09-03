@@ -79,7 +79,8 @@ const VirtualEventsComponent = () => {
       await pb.collection('events').create(newEvent);
       setCreateSuccess('Event created successfully!');
       setNewEventName('');
-      setNewEventDescription('');
+      setNewEventShortDescription('');
+      setNewEventLongDescription('');
       setNewEventDate('');
       //refresh
       const response = await pb.collection('events').getFullList({});
