@@ -62,8 +62,17 @@ const VirtualAssetsComponent = () => {
     try {
       const user = pb.authStore.model;
       if (!user) return;
-      if (!userAssets.includes(assetId)) {
-        const updatedAssets = [...userAssets, assetId];
+      let currentAssets = [];
+      if (user.assets) {
+        try {
+          currentAssets = JSON.parse(user.assets);
+          if (!Array.isArray(currentAssets)) currentAssets = [];
+        } catch {
+          currentAssets = [];
+        }
+      }
+      if (!currentAssets.includes(assetId)) {
+        const updatedAssets = [...currentAssets, assetId];
         await pb.collection('users').update(user.id, {
           assets: JSON.stringify(updatedAssets)
         });
@@ -73,7 +82,6 @@ const VirtualAssetsComponent = () => {
       setError('Failed to collect asset: ' + (err?.message || 'Unknown error'));
     }
   };
-
   return (
     <div className="VirtualAssetsMainDiv">
       <section className="AssetsSection AssetsFeaturedSection">
