@@ -1,110 +1,128 @@
 import React, { useEffect, useState } from 'react';
+import pb from '../pocketbase';
 import './VirtualAssetsComponent.css';
 import BlurText from '../text-animations/BlurText';
-import CardComponent from '../cards/CardComponent';
+import AssetCard from '../cards/AssetCard';
+
+const FEATURED_COUNT = 4;
 
 const VirtualAssetsComponent = () => {
-  const [featuredAccessories, setFeaturedAccessories] = useState([]);
-  const [allAccessories, setAllAccessories] = useState([]);
+  const [featuredAssets, setFeaturedAssets] = useState([]);
+  const [allAssets, setAllAssets] = useState([]);
+  const [userAssets, setUserAssets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    async function fetchAccessories() {
-      setLoading(true);
-      setError('');
-      try {
-        // Replace with your actual API call
-        setFeaturedAccessories([
-          {
-            id: 1,
-            name: 'Neon Glasses',
-            image: 'assets/pictures/neonglasses.png',
-            type: 'Glasses',
-            description: 'Bright neon glasses for your avatar.',
-            rarity: 'Epic',
-          },
-          {
-            id: 2,
-            name: 'Cyber Hat',
-            image: 'assets/pictures/cyberhat.png',
-            type: 'Hat',
-            description: 'A stylish cyberpunk hat.',
-            rarity: 'Rare',
-          },
-        ]);
-        setAllAccessories([
-          {
-            id: 3,
-            name: 'Pixel Mask',
-            image: 'assets/pictures/pixelmask.png',
-            type: 'Mask',
-            description: 'A mask with pixel art style.',
-            rarity: 'Common',
-          },
-          {
-            id: 4,
-            name: 'Laser Earrings',
-            image: 'assets/pictures/laserearrings.png',
-            type: 'Earrings',
-            description: 'Earrings that glow with laser light.',
-            rarity: 'Uncommon',
-          },
-        ]);
-      } catch (err) {
-        setError('Failed to fetch accessories: ' + (err?.message || 'Unknown error'));
-      } finally {
-        setLoading(false);
+useEffect(() => {
+  const abortController = new AbortController();
+
+  async function fetchAssetsAndUser() {
+    setLoading(true);
+    setError('');
+    try {
+      const assetsList = await pb.collection('CustomizationAssets').getFullList({}, { signal: abortController.signal });
+      setAllAssets(assetsList);
+
+      const shuffled = [...assetsList].sort(() => 0.5 - Math.random());
+      setFeaturedAssets(shuffled.slice(0, FEATURED_COUNT));
+      const user = pb.authStore.model;
+      const userAssetsJson = user.assets ? JSON.parse(user.assets) : [];
+      setUserAssets(userAssetsJson);
+
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        setError('Failed to fetch assets: ' + (err?.message || 'Unknown error'));
       }
+    } finally {
+      setLoading(false);
     }
-    fetchAccessories();
-  }, []);
+  }
+
+  fetchAssetsAndUser();
+
+  return () => {
+    abortController.abort();
+  };
+}, []);
+
+  // Collect asset logic
+  const handleCollect = async (assetId) => {
+    try {
+      const user = pb.authStore.model;
+      if (!userAssets.includes(assetId)) {
+        const updatedAssets = [...userAssets, assetId];
+        await pb.collection('users').update(user.id, {
+          assets: JSON.stringify(updatedAssets)
+        });
+        setUserAssets(updatedAssets);
+      }
+    } catch (err) {
+      setError('Failed to collect asset: ' + (err?.message || 'Unknown error'));
+    }
+  };
 
   return (
-    <div className="AvatarAccessoriesMainDiv">
-      <section className="AccessoriesSection">
-        <BlurText
-          text="Featured Accessories"
-          delay={150}
-          animateBy="words"
-          direction="top"
-          className="text-2xl mb-8 AccessoriesTitle"
-        />
-        {loading ? (
-          <div>Loading accessories...</div>
-        ) : error ? (
-          <div className="error-message">{error}</div>
-        ) : featuredAccessories.length > 0 ? (
-          <div className="AccessoriesGrid">
-            {featuredAccessories.map((accessory) => (
-              <CardComponent key={accessory.id} item={accessory} />
-            ))}
-          </div>
-        ) : (
-          <div className="AccessoriesEmpty">No featured accessories available</div>
-        )}
+    <div className="VirtualAssetsMainDiv">
+      {/* Section 1: Featured Assets with video background */}
+      <section className="AssetsSection AssetsFeaturedSection">
+        <video autoPlay muted loop className="AssetsBackgroundVideo" src="assets/pictures/avataraccessoriesbg.mp4" />
+        <div className="AssetsContent">
+          <BlurText
+            text="Featured Assets"
+            delay={150}
+            animateBy="words"
+            direction="top"
+            className="text-2xl mb-8 AssetsTitle"
+          />
+          {loading ? (
+            <div>Loading assets...</div>
+          ) : error ? (
+            <div className="error-message">{error}</div>
+          ) : featuredAssets.length > 0 ? (
+            <div className="AssetsGrid">
+              {featuredAssets.map((asset) => (
+                <AssetCard
+                  key={asset.id}
+                  asset={asset}
+                  onCollect={handleCollect}
+                  isCollected={userAssets.includes(asset.id)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="AssetsEmpty">No featured assets available</div>
+          )}
+        </div>
       </section>
-      <section className="AccessoriesSection">
-        <BlurText
-          text="All Accessories"
-          delay={150}
-          animateBy="words"
-          direction="top"
-          className="text-2xl mb-8 AccessoriesTitle"
-        />
-        {loading ? (
-          <div>Loading accessories...</div>
-        ) : error ? (
-          <div className="error-message">{error}</div>
-        ) : allAccessories.length > 0 ? (
-          <div className="AccessoriesGrid">
-            {allAccessories.map((accessory) => (
-              <CardComponent key={accessory.id} item={accessory} />
-            ))}
-          </div>
-        ) : (
-          <div className="AccessoriesEmpty">No accessories available</div>
-        )}
+      {/* Section 2: All Assets, dark background */}
+      <section className="AssetsSection AssetsAllSection">
+        <div className="AssetsContent">
+          <BlurText
+            text="All Assets"
+            delay={150}
+            animateBy="words"
+            direction="top"
+            className="text-2xl mb-8 AssetsTitle"
+          />
+          {loading ? (
+            <div>Loading assets...</div>
+          ) : error ? (
+            <div className="error-message">{error}</div>
+          ) : allAssets.length > 0 ? (
+            <div className="AssetsGrid">
+              {allAssets.map((asset) => (
+                <AssetCard
+                  key={asset.id}
+                  asset={asset}
+                  onCollect={handleCollect}
+                  isCollected={userAssets.includes(asset.id)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="AssetsEmpty">No assets available</div>
+          )}
+        </div>
       </section>
     </div>
   );

@@ -5,6 +5,10 @@
   justify-content: center;
 }
 
+body, html, #root {
+  overflow-x: hidden;
+}
+
 @font-face{
 font-family: "cyberpunk";
 src: local("SDGlitch_Demo"),

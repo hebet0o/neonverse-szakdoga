@@ -103,7 +103,6 @@ const VirtualEventsComponent = () => {
   return (
     <>
       <div className="EventsMainDiv">
-        {/* Section 1: Events Carousel */}
         <section className="EventsSection EventsCarouselSection">
           <video autoPlay muted loop className="background-video" src="assets/pictures/avataraccessoriesbg.mp4" />
           <div className="EventContent">

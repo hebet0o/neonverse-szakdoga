@@ -1,45 +1,76 @@
-.AvatarAccessoriesMainDiv {
-  min-height: 120vh;
-  max-width: 99vw;;
+.VirtualAssetsMainDiv {
+  min-height: 100vh;
   width: 100vw;
-  background: linear-gradient(135deg, #222 0%, #2c5364 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #222;
+}
+
+.AssetsSection {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.AssetsFeaturedSection {
+  background: none;
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.AssetsBackgroundVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  filter: blur(2px) brightness(0.4);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.AssetsAllSection {
+  background: #333333;
+}
+
+.AssetsContent {
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 40px;
 }
 
-.AccessoriesSection {
-  width: 100%;
-  max-width: 1200px;
-  margin: 40px auto 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
+.AssetsTitle {
+  font-family: 'Orbitron', 'cyberpunk', sans-serif;
+  font-size: 2.2rem;
+  color: #00ffe7;
+  margin-bottom: 32px;
+  letter-spacing: 2px;
+  text-align: center;
 }
 
-.AccessoriesGrid {
+.AssetsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 32px;
-  width: 100%;
+  width: 90vw;
   max-width: 1000px;
   margin: 0 auto;
   padding-bottom: 24px;
   justify-items: center;
 }
 
-.AccessoriesTitle {
-  font-family: 'Orbitron', 'cyberpunk', sans-serif;
-  font-size: 2.2rem;
-  color: #9acd32;
-  margin-bottom: 32px;
-  letter-spacing: 2px;
-  text-align: center;
-}
-
-.AccessoriesEmpty {
+.AssetsEmpty {
   color: #fff;
   font-size: 1.3rem;
   text-align: center;
@@ -47,7 +78,7 @@
 }
 
 .error-message {
-  color: rgb(153, 0, 0);
+  color: #ff00cc;
   font-size: 1.1rem;
   margin-top: 20px;
   text-align: center;

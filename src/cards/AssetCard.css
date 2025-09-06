@@ -1,0 +1,57 @@
+.AssetCard {
+  background: #222;
+  border-radius: 16px;
+  box-shadow: 0 0 8px #000a;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 320px;
+  margin: 0 auto;
+}
+
+.AssetViewerContainer {
+  width: 100%;
+  height: 220px;
+  background: #111;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+}
+
+.AssetInfoCard {
+  background: #333;
+  width: 100%;
+  padding: 18px 0 18px 0;
+  border-radius: 0 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.AssetName {
+  color: #00ffe7;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.AssetPrice {
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+.AssetCollectButton {
+  background: #00ffe7;
+  color: #222;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 8px;
+}
+.AssetCollectButton:disabled {
+  background: #444;
+  color: #888;
+  cursor: not-allowed;
+}
