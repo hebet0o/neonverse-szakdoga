@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import './AssetCard.css';
@@ -11,23 +11,22 @@ function AssetViewer({ url }) {
 const AssetCard = ({ asset, onCollect, isCollected }) => (
   <div className="AssetCard">
     <div className="AssetViewerContainer">
-      <Canvas camera={{ position: [0, 0, 3] }}>
-        <ambientLight intensity={0.8} />
-        <OrbitControls />
-        <AssetViewer url={asset.url} />
-      </Canvas>
+      <Suspense fallback={<div>Loading 3D model...</div>}>
+        {asset.url && asset.url.endsWith('.glb') ? (
+          <AssetViewer url={asset.url} />
+        ) : (
+          <div style={{ color: '#ff00cc', padding: '20px' }}>No 3D preview available.</div>
+        )}
+      </Suspense>
     </div>
     <div className="AssetInfoCard">
       <h3 className="AssetName">{asset.name}</h3>
-      <p className="AssetPrice">
-        Price: {asset.price ? asset.price : asset.isPurchased ? 'Owned' : 'Free'}
-      </p>
       <button
         className="AssetCollectButton"
         onClick={() => onCollect(asset.id)}
-        disabled={isCollected || asset.isPurchased}
+        disabled={isCollected}
       >
-        {isCollected || asset.isPurchased ? 'Collected' : 'Collect'}
+        {isCollected ? 'Collected' : 'Collect'}
       </button>
     </div>
   </div>

@@ -22,10 +22,19 @@ const VirtualAssetsComponent = () => {
       setError('');
       try {
         const assetsList = await pb.collection('CustomizationAssets').getFullList({}, { signal: abortController.signal });
+
         const shuffled = [...assetsList].sort(() => 0.5 - Math.random());
 
-        setFeaturedAssets(shuffled.slice(0, FEATURED_COUNT));
-        setAllAssets(shuffled.slice(FEATURED_COUNT, FEATURED_COUNT + ALL_ASSETS_COUNT));
+        const assetsWithUrls = shuffled.map(asset => ({
+          ...asset,
+          url: asset.url
+            ? `${pb.baseUrl}/api/files/CustomizationAssets/${asset.id}/${asset.url}`
+            : null
+        }));
+
+        setFeaturedAssets(assetsWithUrls.slice(0, FEATURED_COUNT));
+        setAllAssets(assetsWithUrls.slice(FEATURED_COUNT, FEATURED_COUNT + ALL_ASSETS_COUNT));
+
         const user = pb.authStore.model;
         if (user && user.assets) {
           const userAssetsJson = user.assets ? JSON.parse(user.assets) : [];
