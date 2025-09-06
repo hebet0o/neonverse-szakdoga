@@ -61,7 +61,7 @@
 }
 
 .NFTRandomSection {
-  background: #333333;
+  background: linear-gradient(135deg, #222 0%, #9acd32 100%);
   width: 100vw;
   min-height: 100vh;
   display: flex;
@@ -85,8 +85,14 @@
   position: relative;
   width: 100vw;
   min-height: 80vh;
-  overflow: hidden; /* Prevent Cubes from overflowing below */
+  overflow: hidden; 
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.loadingNftText{
+    color:#9acd32;
+    font-size: large;
+    font-family: 'cyberpunk', 'Orbitron', sans-serif;
 }

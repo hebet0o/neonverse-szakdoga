@@ -17,16 +17,13 @@ const NFTCard = ({ nft }) => (
       <strong>Token Standard:</strong> {nft.token_standard}
     </p>
     <a
-      className="NFTLink"
+      className="NFTBuyButton"
       href={nft.opensea_url}
       target="_blank"
       rel="noopener noreferrer"
     >
-      View on OpenSea
+      Buy NFT
     </a>
-    <button className="NFTBuyButton" disabled>
-      Buy NFT (Demo)
-    </button>
   </SpotlightCard>
 );
 

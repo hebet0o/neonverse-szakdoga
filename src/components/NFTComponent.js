@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './NftComponent.css';
 import BlurText from '../text-animations/BlurText';
 import NFTCard from '../cards/NFTCard';
+import { random } from 'gsap';
 
 const NFTComponent = () => {
   const [featuredNFTs, setFeaturedNFTs] = useState([]);
@@ -24,11 +25,13 @@ const NFTComponent = () => {
           }
         };
         const response = await fetch(
-          'https://api.opensea.io/api/v2/collection/boredapeyachtclub/nfts?limit=4',
+          'https://api.opensea.io/api/v2/collection/boredapeyachtclub/nfts?limit=20',
           options
         );
         const data = await response.json();
-        setFeaturedNFTs(data.nfts || []);
+        const allNFTs = data.nfts || [];
+        const randomFeaturedNFTs = allNFTs.sort(() => 0.5 - Math.random()).slice(0, 4);
+        setFeaturedNFTs(randomFeaturedNFTs);
       } catch (err) {
         setErrorFeatured('Failed to fetch NFTs: ' + (err?.message || 'Unknown error'));
       } finally {
@@ -47,11 +50,13 @@ const NFTComponent = () => {
           }
         };
         const response = await fetch(
-          'https://api.opensea.io/api/v2/collection/cryptopunks/nfts?limit=4',
+          'https://api.opensea.io/api/v2/collection/cryptopunks/nfts?limit=20',
           options
         );
         const data = await response.json();
-        setRandomNFTs(data.nfts || []);
+        const allNFTs = data.nfts || [];
+        const randomNFTs = allNFTs.sort(() => 0.5 - Math.random()).slice(0, 4);
+        setRandomNFTs(randomNFTs);
       } catch (err) {
         setErrorRandom('Failed to fetch NFTs: ' + (err?.message || 'Unknown error'));
       } finally {
@@ -76,7 +81,7 @@ const NFTComponent = () => {
             className="text-2xl mb-8 NFTTitle"
           />
           {loadingFeatured ? (
-            <div>Loading NFTs...</div>
+            <div class="loadingNftText">Loading NFTs...</div>
           ) : errorFeatured ? (
             <div className="error-message">{errorFeatured}</div>
           ) : featuredNFTs.length > 0 ? (
@@ -90,7 +95,6 @@ const NFTComponent = () => {
           )}
         </div>
       </section>
-      {/* Random Collection Section */}
       <section className="NFTSection NFTRandomSection">
         <div className="NFTContent">
           <BlurText

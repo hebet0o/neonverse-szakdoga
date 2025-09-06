@@ -2,7 +2,6 @@
   background: rgba(25, 25, 40, 0.85);
   border: 2px solid #00ffe7;
   border-radius: 18px;
-  box-shadow: 0 0 24px #00ffe744, 0 2px 24px #000a;
   padding: 24px 18px;
   color: #fff;
   display: flex;
@@ -28,7 +27,7 @@
 
 .NFTName {
   font-size: 1.3rem;
-  font-family: 'body';
+  font-family: 'cyberpunk', 'Orbitron', 'body';
   color: greenyellow;
   margin-bottom: 8px;
   text-shadow: 0 0 6px #ff00cc88;
@@ -61,8 +60,9 @@
 }
 
 .NFTBuyButton {
-  background: linear-gradient(90deg, #ff00cc 0%, #00ffe7 100%);
-  color: #222;
+  text-decoration: none;
+  background: none;
+  color: white;
   border: none;
   border-radius: 8px;
   padding: 10px 28px;
