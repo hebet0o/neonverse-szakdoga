@@ -5,6 +5,7 @@ import BlurText from '../text-animations/BlurText';
 import AssetCard from '../cards/AssetCard';
 
 const FEATURED_COUNT = 4;
+const ALL_ASSETS_COUNT = 8;
 
 const VirtualAssetsComponent = () => {
   const [featuredAssets, setFeaturedAssets] = useState([]);
@@ -13,42 +14,45 @@ const VirtualAssetsComponent = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-useEffect(() => {
-  const abortController = new AbortController();
+  useEffect(() => {
+    const abortController = new AbortController();
 
-  async function fetchAssetsAndUser() {
-    setLoading(true);
-    setError('');
-    try {
-      const assetsList = await pb.collection('CustomizationAssets').getFullList({}, { signal: abortController.signal });
-      setAllAssets(assetsList);
+    async function fetchAssetsAndUser() {
+      setLoading(true);
+      setError('');
+      try {
+        const assetsList = await pb.collection('CustomizationAssets').getFullList({}, { signal: abortController.signal });
+        const shuffled = [...assetsList].sort(() => 0.5 - Math.random());
 
-      const shuffled = [...assetsList].sort(() => 0.5 - Math.random());
-      setFeaturedAssets(shuffled.slice(0, FEATURED_COUNT));
-      const user = pb.authStore.model;
-      const userAssetsJson = user.assets ? JSON.parse(user.assets) : [];
-      setUserAssets(userAssetsJson);
-
-    } catch (err) {
-      if (err.name !== 'AbortError') {
-        setError('Failed to fetch assets: ' + (err?.message || 'Unknown error'));
+        setFeaturedAssets(shuffled.slice(0, FEATURED_COUNT));
+        setAllAssets(shuffled.slice(FEATURED_COUNT, FEATURED_COUNT + ALL_ASSETS_COUNT));
+        const user = pb.authStore.model;
+        if (user && user.assets) {
+          const userAssetsJson = user.assets ? JSON.parse(user.assets) : [];
+          setUserAssets(userAssetsJson);
+        } else {
+          setUserAssets([]);
+        }
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          setError('Failed to fetch assets: ' + (err?.message || 'Unknown error'));
+        }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
     }
-  }
 
-  fetchAssetsAndUser();
+    fetchAssetsAndUser();
 
-  return () => {
-    abortController.abort();
-  };
-}, []);
+    return () => {
+      abortController.abort();
+    };
+  }, []);
 
-  // Collect asset logic
   const handleCollect = async (assetId) => {
     try {
       const user = pb.authStore.model;
+      if (!user) return;
       if (!userAssets.includes(assetId)) {
         const updatedAssets = [...userAssets, assetId];
         await pb.collection('users').update(user.id, {
@@ -63,7 +67,6 @@ useEffect(() => {
 
   return (
     <div className="VirtualAssetsMainDiv">
-      {/* Section 1: Featured Assets with video background */}
       <section className="AssetsSection AssetsFeaturedSection">
         <video autoPlay muted loop className="AssetsBackgroundVideo" src="assets/pictures/avataraccessoriesbg.mp4" />
         <div className="AssetsContent">
@@ -94,7 +97,6 @@ useEffect(() => {
           )}
         </div>
       </section>
-      {/* Section 2: All Assets, dark background */}
       <section className="AssetsSection AssetsAllSection">
         <div className="AssetsContent">
           <BlurText
