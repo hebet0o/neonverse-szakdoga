@@ -34,14 +34,21 @@ const VirtualAssetsComponent = () => {
 
         setFeaturedAssets(assetsWithUrls.slice(0, FEATURED_COUNT));
         setAllAssets(assetsWithUrls.slice(FEATURED_COUNT, FEATURED_COUNT + ALL_ASSETS_COUNT));
-
         const user = pb.authStore.model;
+        let userAssetsJson = [];
         if (user && user.assets) {
-          const userAssetsJson = user.assets ? JSON.parse(user.assets) : [];
-          setUserAssets(userAssetsJson);
-        } else {
-          setUserAssets([]);
+          if (typeof user.assets === 'string') {
+            try {
+              const parsed = JSON.parse(user.assets);
+              userAssetsJson = Array.isArray(parsed) ? parsed : [parsed];
+            } catch {
+              userAssetsJson = [user.assets];
+            }
+          } else if (Array.isArray(user.assets)) {
+            userAssetsJson = user.assets;
+          }
         }
+        setUserAssets(userAssetsJson);
       } catch (err) {
         if (err.name !== 'AbortError') {
           setError('Failed to fetch assets: ' + (err?.message || 'Unknown error'));
@@ -64,11 +71,15 @@ const VirtualAssetsComponent = () => {
       if (!user) return;
       let currentAssets = [];
       if (user.assets) {
-        try {
-          currentAssets = JSON.parse(user.assets);
-          if (!Array.isArray(currentAssets)) currentAssets = [];
-        } catch {
-          currentAssets = [];
+        if (typeof user.assets === 'string') {
+          try {
+            const parsed = JSON.parse(user.assets);
+            currentAssets = Array.isArray(parsed) ? parsed : [parsed];
+          } catch {
+            currentAssets = [user.assets];
+          }
+        } else if (Array.isArray(user.assets)) {
+          currentAssets = user.assets;
         }
       }
       if (!currentAssets.includes(assetId)) {
@@ -82,6 +93,7 @@ const VirtualAssetsComponent = () => {
       setError('Failed to collect asset: ' + (err?.message || 'Unknown error'));
     }
   };
+
   return (
     <div className="VirtualAssetsMainDiv">
       <section className="AssetsSection AssetsFeaturedSection">
