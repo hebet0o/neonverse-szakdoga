@@ -5,6 +5,7 @@ import './AssetCard.css';
 
 function AssetViewer({ url }) {
   const { scene } = useGLTF(url);
+  console.log(scene);
   return <primitive object={scene} scale={1.5} />;
 }
 
@@ -18,6 +19,7 @@ const AssetCard = ({ asset, onCollect, isCollected }) => (
           <div style={{ color: '#ff00cc', padding: '20px' }}>No 3D preview available.</div>
         )}
       </Suspense>
+      <AssetViewer url={asset.url} />
     </div>
     <div className="AssetInfoCard">
       <h3 className="AssetName">{asset.name}</h3>

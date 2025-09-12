@@ -64,6 +64,14 @@
     transition: background-color 3s ease-in-out, color 0.3s ease-in-out;
 }
 
+.AssetCollectButton:hover {
+  cursor: pointer;
+  background: 
+    linear-gradient(transparent, transparent) padding-box,
+    linear-gradient(60deg, transparent, #7541E5) border-box;
+  color: #7541E5;
+}
+
 .AssetCollectButton:disabled {
   background: #444;
   color: #888;
