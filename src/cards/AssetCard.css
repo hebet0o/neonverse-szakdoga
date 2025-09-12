@@ -16,6 +16,15 @@
   background: #111;
   border-radius: 16px 16px 0 0;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.AssetCard canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
 
 .AssetInfoCard {
@@ -42,15 +51,19 @@
 }
 
 .AssetCollectButton {
-  background: #00ffe7;
-  color: #222;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 24px;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-top: 8px;
+    font-family: "cyberpunk";
+    background: 
+    linear-gradient(transparent, transparent) padding-box,
+    linear-gradient(60deg, #7541E5, transparent) border-box;
+    color: #fff;
+    padding: 10px 20px;
+    border: 5px solid transparent;
+    border-radius: 40px;
+    font-size: 1vw;
+    margin-left: 1vw;
+    transition: background-color 3s ease-in-out, color 0.3s ease-in-out;
 }
+
 .AssetCollectButton:disabled {
   background: #444;
   color: #888;
