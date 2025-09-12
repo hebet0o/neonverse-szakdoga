@@ -29,7 +29,8 @@
 }
 
 .AssetName {
-  color: #00ffe7;
+  color: #adff2f;
+  font-family: 'Cyberpunk', 'Orbitron', sans-serif;
   font-size: 1.2rem;
   margin-bottom: 8px;
 }

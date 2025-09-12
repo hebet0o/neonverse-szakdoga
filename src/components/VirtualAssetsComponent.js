@@ -4,8 +4,8 @@ import './VirtualAssetsComponent.css';
 import BlurText from '../text-animations/BlurText';
 import AssetCard from '../cards/AssetCard';
 
-const FEATURED_COUNT = 4;
-const ALL_ASSETS_COUNT = 8;
+const FEATURED_COUNT = 3;
+const ALL_ASSETS_COUNT = 6;
 
 const VirtualAssetsComponent = () => {
   const [featuredAssets, setFeaturedAssets] = useState([]);
