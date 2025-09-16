@@ -1,8 +1,25 @@
 import React from 'react';
 import './EventCardComponent.css';
+import { useState } from 'react';
 
-const EventCardComponent = ({ event }) => {
-  
+const EventCardComponent = ({ event, user, onRSVP }) => {
+  const [attending, setAttending] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleRSVP = async () => {
+    if (!user) {
+      alert("Please log in to RSVP.");
+      return;
+    }
+    setLoading(true);
+    try {
+      await onRSVP(event.id);
+      setAttending(true);
+    } catch (err) {
+      alert("Failed to RSVP. Please try again.");
+    }
+    setLoading(false);
+  };
 
   const formattedTime = event.time
     ? new Date(event.time).toLocaleTimeString('en-US', {
@@ -19,6 +36,13 @@ const EventCardComponent = ({ event }) => {
       <div className="EventDetails">
         <p className="EventTime">Time: {formattedTime}</p>
       </div>
+      <button
+        onClick={handleRSVP}
+        disabled={attending || loading}
+        className={attending ? "attending" : ""}
+      >
+        {attending ? "You're attending" : loading ? "Attending..." : "Attend"}
+      </button>
     </div>
   );
 };

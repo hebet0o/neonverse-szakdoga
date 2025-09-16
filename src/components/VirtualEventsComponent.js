@@ -3,10 +3,12 @@ import pb from '../pocketbase';
 import EventCardComponent from '../cards/EventCardComponent';
 import './VirtualEventsComponent.css';
 import BlurText from '../text-animations/BlurText';
+import { rsvpToEvent } from '../api/rsvpToEvent';
 
 const EVENTS_PER_PAGE = 3;
 
 const VirtualEventsComponent = () => {
+  const user = pb.authStore.model;
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -121,7 +123,7 @@ const VirtualEventsComponent = () => {
               <>
                 <div className={`EventsCarousel${isAnimating ? ' fade' : ''}`}>
                   {currentEvents.map((event) => (
-                    <EventCardComponent key={event.id} event={event} />
+                    <EventCardComponent key={event.id} event={event} user={user} onRSVP={rsvpToEvent} />
                   ))}
                 </div>
                 <div className="EventsNavigation">
