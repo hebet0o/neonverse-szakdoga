@@ -6,13 +6,12 @@ const EventCardComponent = ({ event, user, onRSVP }) => {
   const [attending, setAttending] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Check if the user is already attending this event
   useEffect(() => {
     let isMounted = true;
     if (user) {
       pb.collection('EventAttendees')
         .getFullList({
-          filter: `event="${event.id}" && user="${user.id}"`
+          filter: `event_id="${event.id}" && user_id="${user.id}"`
         })
         .then(records => {
           if (isMounted) setAttending(records.length > 0);
@@ -43,9 +42,9 @@ const EventCardComponent = ({ event, user, onRSVP }) => {
 
   const formattedTime = event.time
     ? new Date(event.time).toLocaleTimeString('en-US', {
-        hour: '2-digit',
-        minute: '2-digit',
-      })
+      hour: '2-digit',
+      minute: '2-digit',
+    })
     : 'No time specified';
 
   return (

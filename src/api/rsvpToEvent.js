@@ -5,4 +5,4 @@ export async function rsvpToEvent(eventId, userId) {
     event_id: eventId,
     user_id: userId,
   });
-}
+} 
