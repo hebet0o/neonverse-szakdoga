@@ -1,7 +1,7 @@
 import pb from '../pocketbase';
 
 export async function rsvpToEvent(eventId, userId) {
-  return pb.collection('event_attendees').create({
+  return pb.collection('EventAttendees').create({
     event: eventId,
     user: userId,
   });
