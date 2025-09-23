@@ -63,3 +63,17 @@
     font-weight: lighter;
     margin: 0;
 }
+
+#RSVPButton { 
+    font-family: "cyberpunk";
+    background: 
+    linear-gradient(transparent, transparent) padding-box,
+    linear-gradient(60deg, #7541E5, transparent) border-box;
+    color: #fff;
+    padding: 10px 20px;
+    border: 5px solid transparent;
+    border-radius: 40px;
+    font-size: 1vw;
+    margin-left: 1vw;
+    transition: background-color 3s ease-in-out, color 0.3s ease-in-out;
+}

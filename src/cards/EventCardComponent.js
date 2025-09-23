@@ -59,6 +59,7 @@ const EventCardComponent = ({ event, user, onRSVP }) => {
       </div>
       <button
         onClick={handleRSVP}
+        id="RSVPButton"
         disabled={attending || loading}
         className={attending ? "attending" : ""}
       >
