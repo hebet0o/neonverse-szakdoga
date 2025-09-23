@@ -9,14 +9,17 @@ const EventCardComponent = ({ event, user, onRSVP }) => {
   useEffect(() => {
     let isMounted = true;
     if (user) {
+      console.log('RSVP CHECK:', { eventId: event.id, userId: user.id });
       pb.collection('EventAttendees')
         .getFullList({
           filter: `event_id="${event.id}" && user_id="${user.id}"`
         })
         .then(records => {
+          console.log('RSVP records:', records);
           if (isMounted) setAttending(records.length > 0);
         })
-        .catch(() => {
+        .catch((err) => {
+          console.error('RSVP check error:', err);
           if (isMounted) setAttending(false);
         });
     } else {
