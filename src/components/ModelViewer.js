@@ -7,18 +7,8 @@ function Model({ url }) {
   return <primitive object={scene} />;
 }
 
-const ModelViewer = ({ modelName }) => {
-  let fileName = '';
-  const match = modelName.match(/^(.+?)\s?(\d+)$/);
-  if (match) {
-    const base = match[1].replace(/\s/g, '');
-    const num = match[2].padStart(3, '0');
-    fileName = `${base}.${num}.glb`;
-  } else {
-    fileName = `${modelName.replace(/\s/g, '')}.glb`;
-  }
+const ModelViewer = ({ fileName }) => {
   const url = `/assets/models/avatar-builder/${fileName}`;
-
   return (
     <div style={{ width: 200, height: 200 }}>
       <Canvas camera={{ position: [0, 0, 2.5] }}>
