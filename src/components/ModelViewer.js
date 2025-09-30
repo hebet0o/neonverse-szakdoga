@@ -7,19 +7,16 @@ function Model({ url }) {
   return <primitive object={scene} />;
 }
 
-const ModelViewer = ({ fileName }) => {
-  const url = `/assets/models/avatar-builder/${fileName}`;
-  return (
-    <div style={{ width: 200, height: 200 }}>
-      <Canvas camera={{ position: [0, 0, 2.5] }}>
-        <ambientLight />
-        <Suspense fallback={null}>
-          <Model url={url} />
-        </Suspense>
-        <OrbitControls enablePan={false} />
-      </Canvas>
-    </div>
-  );
-};
+const ModelViewer = ({ url }) => (
+  <div style={{ width: 200, height: 200 }}>
+    <Canvas camera={{ position: [0, 0, 2.5] }}>
+      <ambientLight />
+      <Suspense fallback={null}>
+        <Model url={url} />
+      </Suspense>
+      <OrbitControls enablePan={false} />
+    </Canvas>
+  </div>
+);
 
 export default ModelViewer;

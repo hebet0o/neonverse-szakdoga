@@ -28,10 +28,7 @@ const VirtualAssetsComponent = () => {
         const assetsWithUrls = shuffled.map(asset => ({
           ...asset,
           url: asset.url
-            ? `${pb.baseUrl}/api/files/CustomizationAssets/${asset.id}/${asset.url}`
-            : null
         }));
-
         setFeaturedAssets(assetsWithUrls.slice(0, FEATURED_COUNT));
         setAllAssets(assetsWithUrls.slice(FEATURED_COUNT, FEATURED_COUNT + ALL_ASSETS_COUNT));
         const user = pb.authStore.model;
