@@ -4,6 +4,8 @@ import { OrbitControls, useGLTF } from '@react-three/drei';
 
 function Model({ url }) {
   const { scene } = useGLTF(url);
+  scene.position.set(0, 0, 0);
+  scene.scale.set(1.5, 1.5, 1.5);
   return <primitive object={scene} />;
 }
 
