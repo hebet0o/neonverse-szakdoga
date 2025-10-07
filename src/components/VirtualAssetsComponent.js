@@ -92,9 +92,40 @@ const VirtualAssetsComponent = () => {
   };
 
   return (
-    <div className="VirtualAssetsMainDiv">
-      <section className="AssetsSection AssetsFeaturedSection">
-        <video autoPlay muted loop className="AssetsBackgroundVideo" src="assets/pictures/avataraccessoriesbg.mp4" />
+    <div className="VirtualAssetsMainDiv" style={{ position: 'relative', overflow: 'hidden' }}>
+      <div
+        className="AvatarAssetsBackground"
+        style={{
+          width: '100%',
+          minHeight: '100vh',
+          background: 'linear-gradient(120deg, #00ff99 0%, #8f00ff 100%)',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          zIndex: 0,
+          overflow: 'hidden'
+        }}
+      >
+        <svg
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            opacity: 0.18,
+            pointerEvents: 'none'
+          }}
+          viewBox="0 0 800 600"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="400" cy="300" r="250" fill="#fff" fillOpacity="0.1"/>
+          <circle cx="650" cy="100" r="100" fill="#00ff99" fillOpacity="0.2"/>
+          <circle cx="150" cy="500" r="120" fill="#8f00ff" fillOpacity="0.2"/>
+        </svg>
+      </div>
+      <section className="AssetsSection AssetsFeaturedSection" style={{ position: 'relative', zIndex: 1 }}>
         <div className="AssetsContent">
           <BlurText
             text="Featured Assets"
@@ -123,7 +154,7 @@ const VirtualAssetsComponent = () => {
           )}
         </div>
       </section>
-      <section className="AssetsSection AssetsAllSection">
+      <section className="AssetsSection AssetsAllSection" style={{ position: 'relative', zIndex: 1 }}>
         <div className="AssetsContent">
           <BlurText
             text="All Assets"

@@ -79,11 +79,12 @@
 }
 
 .AssetCard {
-  background: rgba(0,0,0,0.5);
+  background: linear-gradient(135deg, #00ff99 0%, #8f00ff 100%);
   border-radius: 1rem;
   padding: 1rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
+  opacity: 0.95;
 }
