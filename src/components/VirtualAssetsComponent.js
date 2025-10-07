@@ -27,7 +27,7 @@ const VirtualAssetsComponent = () => {
 
         const assetsWithUrls = shuffled.map(asset => ({
           ...asset,
-          url: asset.url
+          url: '/assets/models/avatar-builder/' + asset.url
         }));
         setFeaturedAssets(assetsWithUrls.slice(0, FEATURED_COUNT));
         setAllAssets(assetsWithUrls.slice(FEATURED_COUNT, FEATURED_COUNT + ALL_ASSETS_COUNT));
