@@ -1,4 +1,5 @@
 import ModelViewer from '../components/ModelViewer';
+import './AssetCard.css';
 
 const AssetCard = ({ asset, onCollect, isCollected }) => (
   <div className="AssetCard">

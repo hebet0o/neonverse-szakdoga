@@ -11,7 +11,7 @@ function Model({ url }) {
 
 const ModelViewer = ({ url }) => (
   <div style={{ width: 200, height: 200 }}>
-    <Canvas camera={{ position: [0, 0, 2.5] }}>
+    <Canvas camera={{ position: [0, 1, 2.5] }}>
       <ambientLight />
       <Suspense fallback={null}>
         <Model url={url} />
