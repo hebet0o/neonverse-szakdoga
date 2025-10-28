@@ -95,16 +95,6 @@ const VirtualAssetsComponent = () => {
     <div className="VirtualAssetsMainDiv" style={{ position: 'relative', overflow: 'hidden' }}>
       <div
         className="AvatarAssetsBackground"
-        style={{
-          width: '100%',
-          minHeight: '100vh',
-          background: 'linear-gradient(120deg, #00ff99 0%, #8f00ff 100%)',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          zIndex: 0,
-          overflow: 'hidden'
-        }}
       >
         <svg
           style={{
